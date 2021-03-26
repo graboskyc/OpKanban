@@ -5,7 +5,7 @@
 @inject Data.Login l;
 @inject NavigationManager NavigationManager
 
-<h1>Opportunity Kanban Board</h1>
+<h1 style="border-top: 2px solid #13AA52;margin-bottom:50px;">Opportunity Kanban Board</h1>
 
 @if (allTasks != null)
 {
@@ -13,10 +13,10 @@
         @foreach (var c in columns)
         {
             <div class="col-3">
-                <h2>@c</h2>
+                <h2><span class="oi" data-glyph="list"></span> @c</h2>
                 @foreach (var kt in allTasks.Where(k => k.Stage == @c).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                 {
-                    <div class="card" style="width: 18rem;">
+                    <div class="card">
                         <div class="card-body">
                             <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
                             @if (kt.NTSE != null)
@@ -41,10 +41,10 @@
         }
 
         <div class="col-3">
-            <h2>Closed</h2>
+            <h2><span class="oi" data-glyph="list"></span> Closed</h2>
             @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
             {
-                <div class="card" style="width: 18rem;">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
                         <h6 class="card-subtitle mb-2 text-muted">@kt.Stage</h6>

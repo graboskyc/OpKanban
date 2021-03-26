@@ -10,6 +10,8 @@
 <label for="txt_password" class="col-form-label col-form-label-md">Password</label>
 <input type="password" name="txt_password" id="txt_password" @bind="password" @bind:event="onchange" class="form-control form-control-lg" placeholder="Password" />
 
+<br>
+
 @if (failedLogin)
 {
     <div class="alert alert-danger" role="alert">Your email address or password is incorrect.</div>
@@ -33,7 +35,11 @@ else
     private async Task RunLogin()
     {
         isLoading = true;
-        await l.DoLogin(username, password);
+        try {
+            await l.DoLogin(username, password);
+        } catch (Exception e) {
+            failedLogin = true;
+        }
         if (l.IsLoggedIn)
         {
             NavigationManager.NavigateTo("/home");

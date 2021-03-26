@@ -15,15 +15,22 @@ namespace OpKanban.Data
         public string partition { get; set; }
         public event Action OnChange;
         public bool IsLoggedIn { get; set; } = false;
+        public bool LoginFailed {get;set;} = false;
 
         public async Task DoLogin(string email, string password)
         {
-            app = Realms.Sync.App.Create("opkanban-lymqs");
-            user = await app.LogInAsync(Realms.Sync.Credentials.EmailPassword(email, password));
-            partition = $"user={ user.Id }";
-            config = new Realms.Sync.SyncConfiguration(partition, user);
-            realm = await Realm.GetInstanceAsync(config);
-            IsLoggedIn = true;
+            try {
+                app = Realms.Sync.App.Create("opkanban-lymqs");
+                user = await app.LogInAsync(Realms.Sync.Credentials.EmailPassword(email, password));
+                partition = $"user={ user.Id }";
+                config = new Realms.Sync.SyncConfiguration(partition, user);
+                realm = await Realm.GetInstanceAsync(config);
+                IsLoggedIn = true;
+                LoginFailed = false;
+            } catch (Exception e) {
+                IsLoggedIn = false;
+                LoginFailed = true;
+            }
             NotifyStateChanged();
         }
 
