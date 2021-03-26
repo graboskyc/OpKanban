@@ -1,0 +1,46 @@
+{
+  "title": "KanbanTask",
+  "bsonType": "object",
+  "required": [
+    "_id",
+    "_pk",
+    "name",
+    "link",
+    "stage"
+  ],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "_pk": {
+      "bsonType": "string"
+    },
+    "created": {
+      "bsonType": "date"
+    },
+    "modified": {
+      "bsonType": "date"
+    },
+    "name": {
+      "bsonType": "string"
+    },
+    "link": {
+      "bsonType": "string"
+    },
+    "pop": {
+      "bsonType": "string"
+    },
+    "stage": {
+      "bsonType": "string"
+    },
+    "team": {
+      "bsonType": "string"
+    },
+    "ntse": {
+      "bsonType": "string"
+    },
+    "color": {
+      "bsonType": "string"
+    }
+  }
+}
