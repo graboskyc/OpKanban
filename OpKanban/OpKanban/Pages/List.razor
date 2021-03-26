@@ -19,13 +19,22 @@
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
                             <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
+                            @if (kt.NTSE != null)
+                            {
+                                <h6 class="card-subtitle mb-2 text-muted"><b>NTSE:</b> @kt.NTSE</h6>
+                            }
+                            @if (kt.Team != null)
+                            {
+                                <p class="card-text" style="font-size: 12px; font-style: italic;"><i>@kt.Team</i></p>
+                            }
                             <a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link"><span class="oi oi-dollar"></span></a>
                             @if (kt.POP != null)
                             {
                                 <a href=@kt.POP target="_blank" title="Presales Op (POP)" class="card-link"><span class="oi oi-document"></span></a>
                             }
+                            <a @onclick="() => EditCard(kt)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
                             <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a>
-                        </div>
+</div>
                     </div>
                 }
             </div>
@@ -92,6 +101,11 @@
 
             allTasks = l.realm.All<Data.KanbanTask>();
         }
+    }
+
+    private async Task EditCard(Data.KanbanTask kt)
+    {
+        NavigationManager.NavigateTo("/edit/"+kt.Id.ToString());
     }
 
 

@@ -1,0 +1,87 @@
+﻿@page "/edit/{Id}"
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+@inject NavigationManager NavigationManager
+
+<h1>Task</h1>
+
+@if (kt != null)
+{
+    <label>Name</label>
+    <input type="text" value="@kt.Name" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Name = __e.Value.ToString(); });})" class="form-control" />
+
+    <label>SF Link</label>
+    <input type="text" value="@kt.Link"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Link = __e.Value.ToString(); });})" class="form-control" />
+
+    <label>POP Link</label>
+    <input type="text" value="@kt.POP"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.POP = __e.Value.ToString(); });})" class="form-control" />
+
+    <label>People</label>
+    <input type="text" value="@kt.Team"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Team = __e.Value.ToString(); });})" class="form-control" />
+
+    <label>NTSE</label>
+    <input type="text" value="@kt.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.NTSE = __e.Value.ToString(); });})" class="form-control" />
+
+    <label>Stage</label>
+    <select id="ddl_stage" name="ddl_stage" class="form-control"   @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Stage = __e.Value.ToString(); });})" value="@kt.Stage">
+        <option value="Discovery">Discovery</option>
+        <option value="Sizing">Sizing</option>
+        <option value="Tech Validation">Tech Validation</option>
+        <option value="Closed Won">Closed Won</option>
+        <option value="Closed Lost">Closed Lost</option>
+    </select>
+
+    <label>Color</label>
+    <select id="ddl_color" name="ddl_color" class="form-control"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Color = __e.Value.ToString(); });})" value="@kt.Color">
+        <option value="#E51400">Red</option>
+        <option value="#1BA1E2">Cyan</option>
+        <option value="#008A00">Emerald</option>
+        <option value="#60A917">Green</option>
+        <option value="#6A00FF">Indigo</option>
+        <option value="#D80073">Magenta</option>
+        <option value="#76608A">Mauve</option>
+        <option value="#FA6800">Orange</option>
+    </select>
+
+    <button class="btn btn-success" @onclick="Save">Save</button>
+}
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+
+    private Data.KanbanTask kt = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (l.IsLoggedIn.Equals(false))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            kt = l.realm.All<Data.KanbanTask>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(Id));
+            
+        }
+    }
+
+    private async Task Save()
+    {
+        if (l.IsLoggedIn.Equals(false))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            l.realm.Write(() =>
+            {
+                l.realm.Add(kt);
+            });
+        }
+
+    }
+}
+
