@@ -1,0 +1,99 @@
+﻿@page "/list"
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+@inject NavigationManager NavigationManager
+
+<h1>Opportunity Kanban Board</h1>
+
+@if (allTasks != null)
+{
+    <div class="row">
+        @foreach (var c in columns)
+        {
+            <div class="col-3">
+                <h2>@c</h2>
+                @foreach (var kt in allTasks.Where(k => k.Stage == @c).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
+                {
+                    <div class="card" style="width: 18rem;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
+                            <a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link"><span class="oi oi-dollar"></span></a>
+                            @if (kt.POP != null)
+                            {
+                                <a href=@kt.POP target="_blank" title="Presales Op (POP)" class="card-link"><span class="oi oi-document"></span></a>
+                            }
+                            <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="col-3">
+            <h2>Closed</h2>
+            @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">@kt.Stage</h6>
+                        <a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link"><span class="oi oi-dollar"></span></a>
+                        @if (kt.POP != null)
+                        {
+                            <a href=@kt.POP target="_blank" title="Presales Op (POP)" class="card-link"><span class="oi oi-document"></span></a>
+                        }
+                        <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+}
+
+@code {
+    private IQueryable<Data.KanbanTask> allTasks = null;
+    private string[] columns = { "Discovery", "Sizing", "Tech Validation" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (l.IsLoggedIn.Equals(false))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+
+            allTasks = l.realm.All<Data.KanbanTask>();
+        }
+
+    }
+
+    private async Task MoveCard(Data.KanbanTask kt)
+    {
+        if (l.IsLoggedIn.Equals(false))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            string ns = "Discovery";
+            if (kt.Stage == "Discovery") { ns = "Sizing"; }
+            else if (kt.Stage == "Sizing") { ns = "Tech Validation"; }
+            else if (kt.Stage == "Tech Validation") { ns = "Closed Won"; }
+            else if (kt.Stage == "Closed Won") { ns = "Closed Lost"; }
+
+            l.realm.Write(() =>
+            {
+                kt.Stage = ns;
+            });
+
+            allTasks = l.realm.All<Data.KanbanTask>();
+        }
+    }
+
+
+}
+
