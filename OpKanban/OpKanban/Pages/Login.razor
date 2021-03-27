@@ -2,7 +2,8 @@
 @page "/login"
 @layout NavlessLayout
 @inject Data.Login l;
-@inject NavigationManager NavigationManager
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
 
   <div class="login-parent" >
     <div class="login-child">
@@ -37,6 +38,11 @@
     private bool failedLogin = false;
     private string username = "";
     private string password;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JSRuntime.InvokeVoidAsync("captureEnter", "btn_login");
+    }
 
     private async Task RunLogin()
     {

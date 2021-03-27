@@ -1,13 +1,9 @@
-﻿@page "/edit/{Id}"
 @using MongoDB.Bson;
 @using Realms;
 @using Realms.Sync;
 @inject Data.Login l;
-@inject NavigationManager NavigationManager
 
-<div class="content px-4">
-    <h1>Edit Opportunity</h1>
-
+<div>
     @if (kt != null)
     {
         <label>Name</label>
@@ -53,37 +49,48 @@
 
 @code {
     [Parameter]
-    public string Id { get; set; }
+    public string Id { 
+        get { return _id; }
+        set {
+            if(value != _id) {
+                _id = value;
+                    InvokeAsync(async() => await BuildForm());
+            }
+        }
+    }
+
+    [Parameter] 
+    public EventCallback<bool> HasClosed { get; set; }
+
+    private string _id {get;set;} 
 
 
     private Data.KanbanTask kt = null;
 
+    protected async Task BuildForm()
+    {
+        if (l.IsLoggedIn.Equals(true) && (_id != null))
+        {
+            kt = l.realm.All<Data.KanbanTask>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
+            StateHasChanged();
+        }
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        if (l.IsLoggedIn.Equals(false))
-        {
-            NavigationManager.NavigateTo("/login");
-        }
-        else
-        {
-            kt = l.realm.All<Data.KanbanTask>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(Id));
-            
-        }
+        await BuildForm();
     }
 
     private async Task Save()
     {
-        if (l.IsLoggedIn.Equals(false))
-        {
-            NavigationManager.NavigateTo("/login");
-        }
-        else
+        if (l.IsLoggedIn.Equals(true))
         {
             l.realm.Write(() =>
             {
                 l.realm.Add(kt);
             });
         }
+        await HasClosed.InvokeAsync(true);
 
     }
 }

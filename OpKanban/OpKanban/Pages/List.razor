@@ -4,16 +4,17 @@
 @using Realms.Sync;
 @inject Data.Login l;
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <div class="content px-4">
-    <h1 style="border-top: 2px solid var(--gsky-bg-lime);margin-bottom:50px;color:var(--gsky-bg-lime);">Opportunity Kanban Board</h1>
+    <h1 style="border-top: 2px solid var(--gsky-bg-lime);margin-bottom:50px;color:var(--gsky-text-primary);">Opportunity Kanban Board</h1>
 
     @if (allTasks != null)
     {
         <div class="row">
             @foreach (var c in columns)
             {
-                <div class="col-3">
+                <div class="col-md-3">
                     <h2><span class="oi oi-list"></span> @c</h2>
                     @foreach (var kt in allTasks.Where(k => k.Stage == @c).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                     {
@@ -41,7 +42,7 @@
                 </div>
             }
 
-            <div class="col-3">
+            <div class="col-md-3">
                 <h2><span class="oi oi-list"></span> Closed</h2>
                 @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                 {
@@ -64,9 +65,35 @@
     }
 </div>
 
+<div class="modal" id="ctr_editmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Card</h5>
+        <button @onclick="(e=> ModalHasClosed(true))" class="close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <EditCard Id="@editId" HasClosed=@ModalHasClosed />
+      </div>
+    </div>
+  </div>
+</div>
+
 @code {
     private IQueryable<Data.KanbanTask> allTasks = null;
     private string[] columns = { "Discovery", "Sizing", "Tech Validation" };
+
+    private string editId = null;
+
+    private async void ModalHasClosed(bool closed)
+    {
+        StateHasChanged();
+        allTasks = l.realm.All<Data.KanbanTask>();
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("closeTheModal", "ctr_editModal");
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,6 +107,13 @@
             allTasks = l.realm.All<Data.KanbanTask>();
         }
 
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(firstRender) {
+            await JSRuntime.InvokeVoidAsync("detectModalClose");
+        }
     }
 
     private async Task MoveCard(Data.KanbanTask kt)
@@ -107,7 +141,9 @@
 
     private async Task EditCard(Data.KanbanTask kt)
     {
-        NavigationManager.NavigateTo("/edit/"+kt.Id.ToString());
+        editId = kt.Id.ToString();
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("openTheModal", "ctr_editModal");
     }
 
 
