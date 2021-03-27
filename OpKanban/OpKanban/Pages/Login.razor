@@ -4,27 +4,33 @@
 @inject Data.Login l;
 @inject NavigationManager NavigationManager
 
-<label for="txt_username" class="col-form-label col-form-label-md">Email Address</label>
-<input type="text" name="txt_username" id="txt_username" @bind="username" @bind:event="onchange" class="form-control form-control-lg" placeholder="Email" />
+  <div class="login-parent" >
+    <div class="login-child">
+        <h1>Opp Kanban</h1>
+        <label for="txt_username" class="col-form-label col-form-label-md">Email Address</label>
+        <input type="text" name="txt_username" id="txt_username" @bind="username" @bind:event="onchange" class="form-control form-control-lg" placeholder="Email" />
 
-<label for="txt_password" class="col-form-label col-form-label-md">Password</label>
-<input type="password" name="txt_password" id="txt_password" @bind="password" @bind:event="onchange" class="form-control form-control-lg" placeholder="Password" />
+        <label for="txt_password" class="col-form-label col-form-label-md">Password</label>
+        <input type="password" name="txt_password" id="txt_password" @bind="password" @bind:event="onchange" class="form-control form-control-lg" placeholder="Password" />
 
-<br>
+        <br>
 
-@if (failedLogin)
-{
-    <div class="alert alert-danger" role="alert">Your email address or password is incorrect.</div>
-}
+        @if (failedLogin)
+        {
+            <div class="alert alert-danger" role="alert">Your email address or password is incorrect.</div>
+        }
 
-@if (!isLoading)
-{
-    <button class="btn btn-success btn-lg" @onclick="RunLogin" id="btn_login">Login</button>
-}
-else
-{
-    <button class="btn btn-success btn-lg" disabled><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Logging In...</button>
-}
+        @if (!isLoading)
+        {
+            <button class="btn btn-primary btn-lg" @onclick="RunLogin" id="btn_login" style="width:100%;">Login</button>
+        }
+        else
+        {
+            <button class="btn btn-primary btn-lg" disabled style="width:100%;" ><span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Logging In...</button>
+        }
+    </div>
+  </div>
+
 
 @code {
     private bool isLoading = false;

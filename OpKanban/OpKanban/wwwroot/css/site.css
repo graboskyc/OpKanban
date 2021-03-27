@@ -1,17 +1,23 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
-html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-}
-
 a, .btn-link {
-    color: #0366d6;
+    color: var(--gsky-bg-primary);
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: var(--gsky-bg-primary);
+    border-color: var(--gsky-bg-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--gsky-bg-lime);
+    border-color: var(--gsky-bg-lime);
+}
+
+.btn-primary:disabled {
+    background-color: var(--gsky-bg-lime);
+    border-color: var(--gsky-bg-lime);
 }
 
 app {
@@ -47,11 +53,11 @@ app {
 }
 
 .sidebar {
-    background-color: #21313C;
+    background-color: var(--gsky-bg-primary);
 }
 
     .sidebar .top-row {
-        background-color: #061621;
+        background-color: var(--gsky-bg-lime);
     }
 
     .sidebar .navbar-brand {
@@ -80,7 +86,7 @@ app {
         }
 
         .sidebar .nav-item a {
-            color: #FAFBFC;
+            color: var(--gsky-text-secondary);
             border-radius: 4px;
             height: 3rem;
             display: flex;
@@ -89,13 +95,13 @@ app {
         }
 
             .sidebar .nav-item a.active {
-                background-color: #13AA52;
-                color: #FAFBFC;
+                background-color: var(--gsky-bg-lime);
+                color: var(--gsky-text-secondary);
             }
 
             .sidebar .nav-item a:hover {
-                background-color: #B8C4C2;
-                color: #21313C;
+                background-color: var(--gsky-text-secondary);
+                color: var(--gsky-bg-secondary);
             }
 
 .content {

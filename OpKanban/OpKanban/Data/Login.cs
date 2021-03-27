@@ -2,6 +2,8 @@ using System;
 using MongoDB.Bson;
 using Realms;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OpKanban.Data
 {
@@ -16,10 +18,27 @@ namespace OpKanban.Data
         public event Action OnChange;
         public bool IsLoggedIn { get; set; } = false;
         public bool LoginFailed {get;set;} = false;
+        public string Gravatar {get;set;}
 
         public async Task DoLogin(string email, string password)
         {
             try {
+                Username = email;
+
+                using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+                {
+                    byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(email);
+                    byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                    // Convert the byte array to hexadecimal string
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < hashBytes.Length; i++)
+                    {
+                        sb.Append(hashBytes[i].ToString("X2"));
+                    }
+                    Gravatar = sb.ToString().ToLower();
+                }
+    
                 app = Realms.Sync.App.Create("opkanban-lymqs");
                 user = await app.LogInAsync(Realms.Sync.Credentials.EmailPassword(email, password));
                 partition = $"user={ user.Id }";

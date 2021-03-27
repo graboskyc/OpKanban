@@ -1,5 +1,7 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Op Kanban</a>
+﻿@inject Data.Login l;
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Opp Kanban</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,6 +25,13 @@
             </NavLink>
         </li>
     </ul>
+</div>
+
+<div class="bottom-row navbar-dark d-none d-md-block @NavMenuCssClass" id="ctr_profile">
+    @if(l.IsLoggedIn) {
+        <p>@l.Username</p>
+        <img width="64" height="64" src="https://www.gravatar.com/avatar/@l.Gravatar" class="img_profile">
+    }
 </div>
 
 @code {
