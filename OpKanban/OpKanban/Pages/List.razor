@@ -7,7 +7,6 @@
 @inject IJSRuntime JSRuntime
 
 <div class="content px-4">
-    <h1 style="border-top: 2px solid var(--gsky-bg-lime);margin-bottom:50px;color:var(--gsky-text-primary);">Opportunity Board</h1>
 
     @if (allTasks != null)
     {
@@ -15,7 +14,7 @@
             @foreach (var c in columns)
             {
                 <div class="col-md-3">
-                    <h2><span class="oi oi-list"></span> @c</h2>
+                    <h2 class="kanbancolumn"> @c</h2>
                     @foreach (var kt in allTasks.Where(k => k.Stage == @c).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                     {
                         <div class="card">
@@ -43,7 +42,7 @@
             }
 
             <div class="col-md-3">
-                <h2><span class="oi oi-list"></span> Closed</h2>
+                <h2 class="kanbancolumn"> Closed</h2>
                 @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                 {
                     <div class="card">
