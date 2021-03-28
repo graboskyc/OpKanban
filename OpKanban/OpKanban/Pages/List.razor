@@ -38,6 +38,7 @@
     </div>
                         </div>
                     }
+                    <button @onclick="() => NewCard(c)" class="btn new-button" style="width: 100%; margin-top:20px;"><span class="oi oi-plus"></span></button>
                 </div>
             }
 
@@ -69,12 +70,28 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">Edit Card</h5>
-        <button @onclick="(e=> ModalHasClosed(true))" class="close" >
+        <button @onclick="(e=> EditModalHasClosed(true))" class="close" >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <EditCard Id="@editId" HasClosed=@ModalHasClosed />
+        <EditCard Id="@editId" HasClosed=@EditModalHasClosed />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="ctr_newmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New Card</h5>
+        <button @onclick="(e=> NewModalHasClosed(true))" class="close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <NewCard Stage="@newStage" HasClosed=@NewModalHasClosed />
       </div>
     </div>
   </div>
@@ -85,13 +102,21 @@
     private string[] columns = { "Discovery", "Sizing", "Tech Validation" };
 
     private string editId = null;
+    private string newStage = "Discovery";
 
-    private async void ModalHasClosed(bool closed)
+    private async void EditModalHasClosed(bool closed)
     {
         StateHasChanged();
         allTasks = l.realm.All<Data.KanbanTask>();
         StateHasChanged();
-        await JSRuntime.InvokeVoidAsync("closeTheModal", "ctr_editModal");
+        await JSRuntime.InvokeVoidAsync("closeEditModal");
+    }
+    private async void NewModalHasClosed(bool closed)
+    {
+        StateHasChanged();
+        allTasks = l.realm.All<Data.KanbanTask>();
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("closeNewModal");
     }
 
     protected override async Task OnInitializedAsync()
@@ -106,13 +131,6 @@
             allTasks = l.realm.All<Data.KanbanTask>();
         }
 
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if(firstRender) {
-            await JSRuntime.InvokeVoidAsync("detectModalClose");
-        }
     }
 
     private async Task MoveCard(Data.KanbanTask kt)
@@ -142,7 +160,14 @@
     {
         editId = kt.Id.ToString();
         StateHasChanged();
-        await JSRuntime.InvokeVoidAsync("openTheModal", "ctr_editModal");
+        await JSRuntime.InvokeVoidAsync("openEditModal");
+    }
+
+    private async Task NewCard(string stage)
+    {
+        newStage = stage;
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("openNewModal");
     }
 
 

@@ -31,9 +31,12 @@ h2 {
 }
 
 .login-child {
+    border-radius: 9px;
+    background: var(--gsky-bg-lime);
+    box-shadow:  8px 8px 26px #202120,
+                -8px -8px 26px #353736;
     padding: 2rem;
-    border: 1px solid var(--gsky-highlight);
-    background: var(--gsky-text-secondary);
+    color: var(--gsky-text-secondary);
     font-size: 1.5rem;
     text-align: center;
 }
@@ -61,7 +64,7 @@ html,body {
     font-family: 'Barlow', sans-serif;
 }
 
-.card {
+.card,.new-button {
     border-radius: 9px;
     background: #ffffff;
     box-shadow:  7px 7px 14px #f2f2f2,
@@ -69,5 +72,5 @@ html,body {
 }
 
 h2::before {
-    border-bottom:20px solid var(--gsky-bg-lime);
+    border-top: 2px solid #000000;
 }

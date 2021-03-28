@@ -10,16 +10,18 @@ window.captureEnter = function(btnid) {
     });
 }
 
-window.detectModalClose = function() {
-    $('#ctr_editmodal').on('hidden.bs.modal', function () {
-        console.log("Modal closed ");
-    });    
-}
-
-window.openTheModal = function(id) {
+window.openEditModal = function() {
     $('#ctr_editmodal').modal('show');
 }
 
-window.closeTheModal = function(id) {
+window.closeEditModal = function() {
     $('#ctr_editmodal').modal('hide');
+}
+
+window.openNewModal = function() {
+    $('#ctr_newmodal').modal('show');
+}
+
+window.closeNewModal = function() {
+    $('#ctr_newmodal').modal('hide');
 }
