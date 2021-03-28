@@ -67,7 +67,7 @@ app {
 
     .sidebar .oi {
         width: 2rem;
-        font-size: 1.1rem;
+        font-size: 48px;
         vertical-align: text-top;
         top: -2px;
     }
@@ -95,13 +95,11 @@ app {
         }
 
             .sidebar .nav-item a.active {
-                background-color: var(--gsky-bg-lime);
-                color: var(--gsky-text-secondary);
-            }
-
-            .sidebar .nav-item a:hover {
-                background-color: var(--gsky-text-secondary);
-                color: var(--gsky-bg-secondary);
+                border-radius: 9px;
+                background:var(--gsky-bg-primary);
+                color: var(--gsky-bg-lime);
+                box-shadow:  23px 23px 47px #556473,
+                    -23px -23px 47px #73889b;
             }
 
 .content {
@@ -163,7 +161,7 @@ app {
     }
 
     .sidebar {
-        width: 250px;
+        width: 128px;
         height: 100vh;
         position: sticky;
         top: 0;

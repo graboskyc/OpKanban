@@ -1,7 +1,6 @@
 ﻿@inject Data.Login l;
 
-<div class="top-row pl-4 navbar navbar-dark">
-    <a class="navbar-brand" href="">Opp Kanban</a>
+<div class="navbar navbar-dark">
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -11,28 +10,28 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="home" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span>
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="new">
-                <span class="oi oi-plus" aria-hidden="true"></span> New
+                <span class="oi oi-plus" aria-hidden="true"></span>
             </NavLink>
         </li>
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="list">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> List
+                <span class="oi oi-list-rich" aria-hidden="true"></span>
             </NavLink>
         </li>
     </ul>
 </div>
 
-<div class="bottom-row navbar-dark d-none d-md-block @NavMenuCssClass" id="ctr_profile">
-    @if(l.IsLoggedIn) {
-        <p>@l.Username</p>
+
+@if(l.IsLoggedIn) {
+    <div class="bottom-row navbar-dark d-none d-md-block @NavMenuCssClass" id="ctr_profile">
         <img width="64" height="64" src="https://www.gravatar.com/avatar/@l.Gravatar" class="img_profile">
-    }
-</div>
+    </div>
+}
 
 @code {
     private bool collapseNavMenu = true;

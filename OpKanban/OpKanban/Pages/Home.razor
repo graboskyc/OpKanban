@@ -1,7 +1,16 @@
 ﻿@page "/home"
+@inject Data.Login l;
 
-
-<div style="margin-top:35vh;">
-    <p style="font-size: 10vh; text-align: center;color:var(--gsky-bg-lime); ">Opp Kanban Tracker</p>
+<div style="display: grid;place-items: center;width: 100%;height: 100vh;">
+    <div>
+        <p style="font-size: 10vh; text-align: center;color:var(--gsky-bg-lime); ">
+            Opp Kanban Tracker
+        </p>
+        <p style="text-align:center;">
+            @if(l.IsLoggedIn) {
+                @l.Username;
+            }
+        </p>
+    </div>
 </div>
 
