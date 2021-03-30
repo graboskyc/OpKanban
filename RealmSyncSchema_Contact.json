@@ -1,0 +1,44 @@
+{
+  "title": "Contact",
+  "bsonType": "object",
+  "required": [
+    "_id",
+    "_pk",
+    "name"
+  ],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "_pk": {
+      "bsonType": "string"
+    },
+    "name": {
+      "bsonType": "string"
+    },
+    "email": {
+      "bsonType": "string"
+    },
+    "note": {
+      "bsonType": "string"
+    },
+    "championStatus": {
+      "bsonType": "string"
+    },
+    "family": {
+      "bsonType": "string"
+    },
+    "interests": {
+      "bsonType": "string"
+    },
+    "color": {
+      "bsonType": "string"
+    },
+    "company": {
+      "bsonType": "string"
+    },
+    "division": {
+      "bsonType": "string"
+    }
+  }
+}

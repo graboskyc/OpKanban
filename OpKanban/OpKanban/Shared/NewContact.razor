@@ -1,0 +1,90 @@
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+
+<label>Name</label>
+<input type="text" @bind="txt_name" @bind:event="onchange" class="form-control" />
+
+<label>Email</label>
+<input type="text" @bind="txt_email" @bind:event="onchange" class="form-control" />
+
+<label>Company</label>
+<input type="text" @bind="txt_comp" @bind:event="onchange" class="form-control" />
+
+<label>Division</label>
+<input type="text" @bind="txt_div" @bind:event="onchange" class="form-control" />
+
+<label>Notes</label>
+<textarea rows="5" class="form-control" @bind="txt_note" @bind:event="onchange" ></textarea>
+
+<label>Family</label>
+<textarea rows="5" class="form-control" @bind="txt_fam" @bind:event="onchange" ></textarea>
+
+<label>Interests</label>
+<textarea rows="5" class="form-control" @bind="txt_int" @bind:event="onchange" ></textarea>
+
+<label>Champion Status</label>
+<select id="ddl_champ" name="ddl_champ" class="form-control" @bind="ddl_champ">
+    <option value="Not a target">Not a target</option>
+    <option value="Target">Target</option>
+    <option value="Skeptic">Skeptic</option>
+    <option value="Champion">Champion</option>
+    <option value="Tested Champion">Tested Champion</option>
+</select>
+
+<label>Color</label>
+<select id="ddl_color" name="ddl_color" class="form-control" @bind="ddl_color">
+    <option value="#E51400">Red</option>
+    <option value="#1BA1E2">Cyan</option>
+    <option value="#008A00">Emerald</option>
+    <option value="#60A917">Green</option>
+    <option value="#6A00FF">Indigo</option>
+    <option value="#D80073">Magenta</option>
+    <option value="#76608A">Mauve</option>
+    <option value="#FA6800">Orange</option>
+</select>
+
+<br>
+<button class="btn btn-lg btn-primary" @onclick="Insert" style="width:100%;">Track New Contact</button>
+
+@code {
+
+    [Parameter] 
+    public EventCallback<bool> HasClosed { get; set; }
+
+    private string txt_name, txt_email, txt_note, ddl_champ, ddl_color, txt_fam, txt_int, txt_div, txt_comp;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ddl_color = "#E51400";
+        StateHasChanged();
+    }
+
+    private async Task Insert()
+    {
+        if (l.IsLoggedIn.Equals(true))
+        {
+            Data.Contact c = new Data.Contact();
+            c.Name = txt_name;
+            c.Email = txt_email;
+            c.Note = txt_note;
+            c.ChampionStatus = ddl_champ;
+            c.Color = ddl_color;
+            c.Family = txt_fam;
+            c.Interests = txt_int;
+            c.Partition = l.partition;
+            c.Division = txt_div;
+            c.Company = txt_comp;
+
+            l.realm.Write(() =>
+            {
+                l.realm.Add(c);
+            });
+
+            await HasClosed.InvokeAsync(true);
+        }
+
+    }
+}
+

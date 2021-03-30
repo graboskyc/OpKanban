@@ -53,13 +53,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@kt.Stage</h6>
-                            <a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link"><span class="oi oi-dollar"></span></a>
-                            @if (kt.POP != null)
-                            {
-                                <a href=@kt.POP target="_blank" title="Presales Op (POP)" class="card-link"><span class="oi oi-document"></span></a>
-                            }
-                            <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a>
+                            <h6 class="card-subtitle mb-2 text-muted">@kt.Stage <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a></h6> 
                         </div>
                     </div>
                 }

@@ -1,0 +1,103 @@
+﻿@page "/contacts"
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<div class="content px-4">
+
+    @if (allContacts != null)
+    {
+        <div class="row">
+            
+            <div class="col-sm-8">
+                    <h2 class="kanbancolumn">Contacts</h2>
+                    @foreach (var c in allContacts.OrderByDescending(c => c.Name))
+                    {
+                        <div class="card" style="width: 18rem;float:left;margin:10px;">
+                            <div class="card-body">
+                                <h5 class="card-title" style="border-top: 2px solid @c.Color">@c.Name</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@c.Company / @c.Division</h6>
+                                <p class="card-text">@c.ChampionStatus</p>
+                               <a @onclick="() => EditCard(c)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
+                            </div>
+                        </div>
+                    }
+                    <button @onclick="() => NewCard()" class="btn new-button btn-sm" style="width: 100%; margin-top:20px;"><span class="oi oi-plus"></span></button>
+            </div>
+
+            <div class="col-sm-4">
+                @if(editId != null) {
+                    <EditContact Id="@editId" HasClosed=@EditModalHasClosed />
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div class="modal" id="ctr_newmodal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">New Card</h5>
+        <button @onclick="(e=> NewModalHasClosed(true))" class="close" >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <NewContact HasClosed=@NewModalHasClosed />
+      </div>
+    </div>
+  </div>
+</div>
+
+@code {
+    private IQueryable<Data.Contact> allContacts = null;
+
+    private string editId = null;
+
+    private async void NewModalHasClosed(bool closed)
+    {
+        StateHasChanged();
+        allContacts = l.realm.All<Data.Contact>();
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("closeNewModal");
+    }
+
+    private async void EditModalHasClosed(bool closed)
+    {
+        StateHasChanged();
+        allContacts = l.realm.All<Data.Contact>();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (l.IsLoggedIn.Equals(false))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+
+            allContacts = l.realm.All<Data.Contact>();
+        }
+
+    }
+
+    private async Task EditCard(Data.Contact c)
+    {
+        editId = c.Id.ToString();
+        StateHasChanged();
+    }
+
+    private async Task NewCard()
+    {
+        StateHasChanged();
+        await JSRuntime.InvokeVoidAsync("openNewModal");
+    }
+
+
+}
+
