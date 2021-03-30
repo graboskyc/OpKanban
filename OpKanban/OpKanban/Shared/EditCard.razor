@@ -21,6 +21,9 @@
         <label>NTSE</label>
         <input type="text" value="@kt.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.NTSE = __e.Value.ToString(); });})" class="form-control" />
 
+        <label>Notes</label>
+        <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Note = __e.Value.ToString(); });})" class="form-control" value="@kt.Note"></textarea>
+
         <label>Stage</label>
         <select id="ddl_stage" name="ddl_stage" class="form-control"   @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Stage = __e.Value.ToString(); });})" value="@kt.Stage">
             <option value="Discovery">Discovery</option>

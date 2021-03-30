@@ -41,6 +41,9 @@
     },
     "color": {
       "bsonType": "string"
+    },
+    "note": {
+      "bsonType": "string"
     }
   }
 }

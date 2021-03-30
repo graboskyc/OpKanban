@@ -33,6 +33,10 @@
                                 {
                                     <a href=@kt.POP target="_blank" title="Presales Op (POP)" class="card-link"><span class="oi oi-document"></span></a>
                                 }
+                                @if (kt.Note != null)
+                                {
+                                    <a @onclick="() => EditCard(kt)" title="Edit" class="card-link"><span class="oi oi-justify-left"></span></a>
+                                }
                                 <a @onclick="() => EditCard(kt)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
                                 <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a>
     </div>

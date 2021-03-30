@@ -37,5 +37,8 @@ namespace OpKanban.Data
 
         [MapTo("color")]
         public string Color { get; set; }
+
+        [MapTo("note")]
+        public string Note { get; set; }
     }
 }
