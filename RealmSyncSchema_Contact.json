@@ -39,6 +39,12 @@
     },
     "division": {
       "bsonType": "string"
+    },
+    "location": {
+      "bsonType": "string"
+    },
+    "phone": {
+      "bsonType": "string"
     }
   }
 }

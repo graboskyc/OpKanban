@@ -12,20 +12,26 @@
         <label>Email</label>
         <input type="text" value="@c.Email"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Email = __e.Value.ToString(); });})" class="form-control" />
 
+        <label>Phone</label>
+        <input type="text" value="@c.Phone"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Phone = __e.Value.ToString(); });})" class="form-control" />
+
         <label>Company</label>
         <input type="text" value="@c.Company"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Company = __e.Value.ToString(); });})" class="form-control" />
 
         <label>Division</label>
         <input type="text" value="@c.Division"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Division = __e.Value.ToString(); });})" class="form-control" />
 
+        <label>Location</label>
+        <input type="text" value="@c.Location"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Location = __e.Value.ToString(); });})" class="form-control" />
+
         <label>Notes</label>
         <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
 
         <label>Family</label>
-        <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Family = __e.Value.ToString(); });})" class="form-control" value="@c.Family"></textarea>
+        <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Family = __e.Value.ToString(); });})" class="form-control" value="@c.Family"></textarea>
 
         <label>Interests</label>
-        <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Interests = __e.Value.ToString(); });})" class="form-control" value="@c.Interests"></textarea>
+        <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Interests = __e.Value.ToString(); });})" class="form-control" value="@c.Interests"></textarea>
 
         <label>Champion Status</label>
         <select id="ddl_champ" name="ddl_champ" class="form-control" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.ChampionStatus = __e.Value.ToString(); });})" value="@c.ChampionStatus">
@@ -34,6 +40,7 @@
             <option value="Skeptic">Skeptic</option>
             <option value="Champion">Champion</option>
             <option value="Tested Champion">Tested Champion</option>
+            <option value="EB">EB</option>
         </select>
 
         <label>Color</label>

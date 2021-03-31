@@ -41,5 +41,11 @@ namespace OpKanban.Data
 
         [MapTo("division")]
         public string Division { get; set; }
+
+        [MapTo("location")]
+        public string Location { get; set; }
+
+        [MapTo("phone")]
+        public string Phone { get; set; }
     }
 }

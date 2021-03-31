@@ -9,11 +9,17 @@
 <label>Email</label>
 <input type="text" @bind="txt_email" @bind:event="onchange" class="form-control" />
 
+<label>Phone</label>
+<input type="text" @bind="txt_pn" @bind:event="onchange" class="form-control" />
+
 <label>Company</label>
 <input type="text" @bind="txt_comp" @bind:event="onchange" class="form-control" />
 
 <label>Division</label>
 <input type="text" @bind="txt_div" @bind:event="onchange" class="form-control" />
+
+<label>Location</label>
+<input type="text" @bind="txt_loc" @bind:event="onchange" class="form-control" />
 
 <label>Notes</label>
 <textarea rows="5" class="form-control" @bind="txt_note" @bind:event="onchange" ></textarea>
@@ -31,6 +37,7 @@
     <option value="Skeptic">Skeptic</option>
     <option value="Champion">Champion</option>
     <option value="Tested Champion">Tested Champion</option>
+    <option value="EB">EB</option>
 </select>
 
 <label>Color</label>
@@ -53,7 +60,7 @@
     [Parameter] 
     public EventCallback<bool> HasClosed { get; set; }
 
-    private string txt_name, txt_email, txt_note, ddl_champ, ddl_color, txt_fam, txt_int, txt_div, txt_comp;
+    private string txt_name, txt_email, txt_note, ddl_champ, ddl_color, txt_fam, txt_int, txt_div, txt_comp, txt_pn, txt_loc;
 
     protected override async Task OnInitializedAsync()
     {
@@ -76,6 +83,8 @@
             c.Partition = l.partition;
             c.Division = txt_div;
             c.Company = txt_comp;
+            c.Phone = txt_pn;
+            c.Location = txt_loc;
 
             l.realm.Write(() =>
             {
