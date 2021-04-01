@@ -21,6 +21,10 @@
                                 <h5 class="card-title" style="border-top: 2px solid @c.Color">@c.Name</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">@c.Company / @c.Division</h6>
                                 <p class="card-text">@c.ChampionStatus</p>
+                                @if (c.LinkedIn != null)
+                                {
+                                    <a href=@c.LinkedIn target="_blank" title="LinkedIn" class="card-link"><span class="oi oi-link-intact"></span></a>
+                                }
                                <a @onclick="() => EditCard(c)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
                             </div>
                         </div>

@@ -39,11 +39,18 @@
     },
     "division": {
       "bsonType": "string"
+    }
+    ,
+    "phone": {
+      "bsonType": "string"
     },
     "location": {
       "bsonType": "string"
     },
-    "phone": {
+    "tenure": {
+      "bsonType": "string"
+    },
+    "linkedin": {
       "bsonType": "string"
     }
   }

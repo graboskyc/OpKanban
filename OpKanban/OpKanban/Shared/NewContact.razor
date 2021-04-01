@@ -6,11 +6,17 @@
 <label>Name</label>
 <input type="text" @bind="txt_name" @bind:event="onchange" class="form-control" />
 
+<label>Location</label>
+<input type="text" @bind="txt_loc" @bind:event="onchange" class="form-control" />
+
 <label>Email</label>
 <input type="text" @bind="txt_email" @bind:event="onchange" class="form-control" />
 
 <label>Phone</label>
 <input type="text" @bind="txt_pn" @bind:event="onchange" class="form-control" />
+
+<label>LinkedIn</label>
+<input type="text" @bind="txt_li" @bind:event="onchange" class="form-control" />
 
 <label>Company</label>
 <input type="text" @bind="txt_comp" @bind:event="onchange" class="form-control" />
@@ -18,17 +24,17 @@
 <label>Division</label>
 <input type="text" @bind="txt_div" @bind:event="onchange" class="form-control" />
 
-<label>Location</label>
-<input type="text" @bind="txt_loc" @bind:event="onchange" class="form-control" />
+<label>Tenure</label>
+<input type="text" @bind="txt_tenure" @bind:event="onchange" class="form-control" />
 
 <label>Notes</label>
-<textarea rows="5" class="form-control" @bind="txt_note" @bind:event="onchange" ></textarea>
+<textarea rows="3" class="form-control" @bind="txt_note" @bind:event="onchange" ></textarea>
 
 <label>Family</label>
-<textarea rows="5" class="form-control" @bind="txt_fam" @bind:event="onchange" ></textarea>
+<textarea rows="3" class="form-control" @bind="txt_fam" @bind:event="onchange" ></textarea>
 
 <label>Interests</label>
-<textarea rows="5" class="form-control" @bind="txt_int" @bind:event="onchange" ></textarea>
+<textarea rows="3" class="form-control" @bind="txt_int" @bind:event="onchange" ></textarea>
 
 <label>Champion Status</label>
 <select id="ddl_champ" name="ddl_champ" class="form-control" @bind="ddl_champ">
@@ -60,7 +66,7 @@
     [Parameter] 
     public EventCallback<bool> HasClosed { get; set; }
 
-    private string txt_name, txt_email, txt_note, ddl_champ, ddl_color, txt_fam, txt_int, txt_div, txt_comp, txt_pn, txt_loc;
+    private string txt_name, txt_email, txt_note, ddl_champ, ddl_color, txt_fam, txt_int, txt_div, txt_comp, txt_pn, txt_loc, txt_li, txt_tenure;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,6 +91,8 @@
             c.Company = txt_comp;
             c.Phone = txt_pn;
             c.Location = txt_loc;
+            c.Tenure = txt_tenure;
+            c.LinkedIn = txt_li;
 
             l.realm.Write(() =>
             {

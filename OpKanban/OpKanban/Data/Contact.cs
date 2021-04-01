@@ -47,5 +47,11 @@ namespace OpKanban.Data
 
         [MapTo("phone")]
         public string Phone { get; set; }
+
+        [MapTo("linkedin")]
+        public string LinkedIn { get; set; }
+
+        [MapTo("tenure")]
+        public string Tenure { get; set; }
     }
 }
