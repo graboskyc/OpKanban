@@ -1,7 +1,12 @@
 # Op Kanban
 
 ## Background
-A simple Blazor Server app (with docker support or wrapped in Electron) to build out a Kanban Board. Data and authentication is using MongoDB Atlas and MongoDB Realm Sync.
+A simple Blazor Server app (with docker support or wrapped in Electron) to build out a some account management tasks for Solutions Architects. Data and authentication is using MongoDB Atlas and MongoDB Realm Sync.
+
+## Features
+* Run in Docker or Electron desktop app
+* Track opportunities and details about them in a Kanban Board layout
+* Tack contacts for the purposes of champion building
 
 ## Running yourself
 ### DB Prep
@@ -15,10 +20,21 @@ A simple Blazor Server app (with docker support or wrapped in Electron) to build
 ### App Prep
 * Git Clone this archive
 * Copy the Realm App ID from Realm and replace the string in [Login.cs](OpKanban/OpKanban/Data/Login.cs)
-* Have Docker installed and running
+
+## Option A - Docker
+* You must have Docker installed and running
 * Run [build.sh](OpKanban/build.sh) 
 * App will start on port `666`
 
+## Option B - Electron
+* You must have [ElectronNET.CLI](https://www.nuget.org/packages/ElectronNET.CLI/) installed
+* `cd` to the directory you cloned above 
+* `cd` to OpKanban
+* Run `electronize build /target win` to make a Windows Executable 
+* Find the executable in `bin/Desktop` and run it to install
+
+
+## Screenshots
 ![](Screenshots/ss01.png)
 
 ![](Screenshots/ss02.png)
@@ -30,3 +46,5 @@ A simple Blazor Server app (with docker support or wrapped in Electron) to build
 ![](Screenshots/ss05.png)
 
 ![](Screenshots/ss06.png)
+
+![](Screenshots/ss07.png)
