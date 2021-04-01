@@ -3,7 +3,7 @@
 @using Realms.Sync;
 @inject Data.Login l;
 
-<div>
+<div class="edit-col">
     @if (c != null)
     {
         <label>Name</label>
@@ -54,7 +54,11 @@
         </select>
 
         <br>
-        <button class="btn btn-primary btn-lg" @onclick="Save" style="width:100%;">Save</button>
+        <div class="row">
+            <div class="col-sm-8"><button class="btn btn-primary btn-lg" @onclick="Save" style="width:100%;">Save</button></div>
+            <div class="col-sm-1">&nbsp;</div>
+            <div class="col-sm-3"><button class="btn btn-danger btn-lg" @onclick="Delete" style="width:100%;"><span class="oi oi-trash"></span></button></div>
+        </div>
     }
 </div>
 
@@ -99,6 +103,19 @@
             l.realm.Write(() =>
             {
                 l.realm.Add(c);
+            });
+        }
+        await HasClosed.InvokeAsync(true);
+    }
+
+    private async Task Delete()
+    {
+        if (l.IsLoggedIn.Equals(true))
+        {
+            l.realm.Write(() =>
+            {
+                l.realm.Remove(c);
+                c = null;
             });
         }
         await HasClosed.InvokeAsync(true);

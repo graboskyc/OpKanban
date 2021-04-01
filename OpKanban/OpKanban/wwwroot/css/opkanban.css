@@ -64,7 +64,7 @@ html,body {
     font-family: 'Barlow', sans-serif;
 }
 
-.card,.new-button {
+.card,.new-button, .edit-col {
     border-radius: 9px;
     background: #ffffff;
     box-shadow:  7px 7px 14px #f2f2f2,
