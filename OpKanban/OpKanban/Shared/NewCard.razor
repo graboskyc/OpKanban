@@ -20,23 +20,16 @@
 
 <label>Stage</label>
 <select id="ddl_stage" name="ddl_stage" class="form-control" @bind="ddl_stage">
-    <option value="Discovery">Discovery</option>
-    <option value="Sizing">Sizing</option>
-    <option value="Tech Validation">Tech Validation</option>
-    <option value="Closed Won">Closed Won</option>
-    <option value="Closed Lost">Closed Lost</option>
+    @foreach(var o in Data.DDL_Stage.Stages) {
+        <option value="@o.Value">@o.Key</option>
+    }
 </select>
 
 <label>Color</label>
 <select id="ddl_color" name="ddl_color" class="form-control" @bind="ddl_color">
-    <option value="#E51400">Red</option>
-    <option value="#1BA1E2">Cyan</option>
-    <option value="#008A00">Emerald</option>
-    <option value="#60A917">Green</option>
-    <option value="#6A00FF">Indigo</option>
-    <option value="#D80073">Magenta</option>
-    <option value="#76608A">Mauve</option>
-    <option value="#FA6800">Orange</option>
+    @foreach(var o in Data.DDL_Color.Colors) {
+        <option value="@o.Value">@o.Key</option>
+    }
 </select>
 
 <br>
