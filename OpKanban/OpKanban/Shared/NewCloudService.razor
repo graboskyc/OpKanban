@@ -1,0 +1,77 @@
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+
+<label>Name</label>
+<input type="text" @bind="txt_name" @bind:event="onchange" class="form-control" />
+
+<label>Link</label>
+<input type="text" @bind="txt_link" @bind:event="onchange" class="form-control" />
+
+<label>Company</label>
+<input type="text" @bind="txt_comp" @bind:event="onchange" class="form-control" />
+
+<label>Notes</label>
+<textarea rows="3" class="form-control" @bind="txt_note" @bind:event="onchange" ></textarea>
+
+<label>Color</label>
+<select id="ddl_color" name="ddl_color" class="form-control" @bind="ddl_color">
+    @foreach(var o in Data.DDL_Color.Colors) {
+        <option value="@o.Value">@o.Key</option>
+    }
+</select>
+
+<br>
+<button class="btn btn-lg btn-primary" @onclick="Insert" style="width:100%;">Track Service</button>
+
+@code {
+    [Parameter]
+    public string Stage { 
+        get { return _stage; }
+        set {
+            if(value != _stage) {
+                _stage = value;
+                InvokeAsync(async() => await BuildForm());
+            }
+        }
+    }
+
+    private string _stage;
+
+    [Parameter] 
+    public EventCallback<bool> HasClosed { get; set; }
+
+    private string txt_name, txt_link, txt_comp, ddl_color, txt_note;
+
+    protected override async Task OnInitializedAsync()
+    {
+        BuildForm();
+    }
+
+    protected async Task BuildForm() {
+        ddl_color = "#E51400";
+        StateHasChanged();
+    }
+    private async Task Insert()
+    {
+        if (l.IsLoggedIn.Equals(true))
+        {
+            Data.CloudService cs = new Data.CloudService();
+            cs.Name = txt_name;
+            cs.Note = txt_note;
+            cs.Color = ddl_color;
+            cs.Company = txt_comp;
+            cs.Partition = l.partition;
+
+            l.realm.Write(() =>
+            {
+                l.realm.Add(cs);
+            });
+
+            await HasClosed.InvokeAsync(true);
+        }
+
+    }
+}
+
