@@ -14,21 +14,23 @@
             
             <div class="col-sm-8">
                     <h2 class="kanbancolumn">Contacts</h2>
-                    @foreach (var c in allContacts.OrderByDescending(c => c.Name))
-                    {
-                        <div class="card" style="width: 18rem;float:left;margin:10px;">
-                            <div class="card-body">
-                                <h5 class="card-title" style="border-top: 2px solid @c.Color">@c.Name</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">@c.Company / @c.Division</h6>
-                                <p class="card-text">@c.ChampionStatus</p>
-                                @if (c.LinkedIn != null)
-                                {
-                                    <a href=@c.LinkedIn target="_blank" title="LinkedIn" class="card-link"><span class="oi oi-link-intact"></span></a>
-                                }
-                               <a @onclick="() => EditCard(c)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
+                    <div class="d-flex flex-wrap">
+                        @foreach (var c in allContacts.OrderBy(c => c.Name))
+                        {
+                            <div class="card" style="width: 18rem;float:left;margin:10px;">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="border-top: 2px solid @c.Color">@c.Name</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">@c.Company / @c.Division</h6>
+                                    <p class="card-text">@c.ChampionStatus</p>
+                                    @if (c.LinkedIn != null)
+                                    {
+                                        <a href=@c.LinkedIn target="_blank" title="LinkedIn" class="card-link"><span class="oi oi-link-intact"></span></a>
+                                    }
+                                <a @onclick="() => EditCard(c)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                     <button @onclick="() => NewCard()" class="btn new-button btn-sm" style="width: 100%; margin-top:20px;"><span class="oi oi-plus"></span></button>
             </div>
 
