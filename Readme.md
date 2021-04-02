@@ -1,7 +1,7 @@
 # Op Kanban
 
 ## Background
-A simple Blazor Server app (with docker support or wrapped in Electron) to build out a some account management tasks for Solutions Architects. Data and authentication is using MongoDB Atlas and MongoDB Realm Sync.
+A simple Blazor Server app (with docker support or wrapped in Electron) to build out some account management tasks for Solutions Architects. Data and authentication is using MongoDB Atlas and MongoDB Realm Sync.
 
 ## Features
 * Run in Docker or Electron desktop app
