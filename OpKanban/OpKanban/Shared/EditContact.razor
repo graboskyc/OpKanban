@@ -41,7 +41,7 @@
 
         <label>Champion Status</label>
         <select id="ddl_champ" name="ddl_champ" class="form-control" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.ChampionStatus = __e.Value.ToString(); });})" value="@c.ChampionStatus">
-            @foreach(var o in Data.DDL_Stage.Stages) {
+            @foreach(var o in Data.DDL_Champs.Statuses) {
                 <option value="@o.Value">@o.Key</option>
             }
         </select>
