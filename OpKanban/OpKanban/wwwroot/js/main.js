@@ -25,3 +25,10 @@ window.openNewModal = function() {
 window.closeNewModal = function() {
     $('#ctr_newmodal').modal('hide');
 }
+
+const { shell } = require("electron")
+
+$(document).on('click', 'a[href^="http"]', function(event) {
+    event.preventDefault();
+    shell.openExternal(this.href);
+});

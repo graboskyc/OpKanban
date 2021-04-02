@@ -1,10 +1,10 @@
 {
   "executable": "OpKanban",
   "splashscreen": {
-    "imageFile": ""
+    "imageFile": "./wwwroot/Splash.png"
   },
   "name": "OpKanban",
-  "author": "",
+  "author": "graboskyc",
   "singleInstance": false,
   "environment": "Production",
   "build": {
