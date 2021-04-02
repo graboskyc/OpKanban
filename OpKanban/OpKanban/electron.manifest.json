@@ -16,6 +16,9 @@
     "directories": {
       "output": "../../../bin/Desktop"
     },
+    "win": {
+      "icon": "../../../wwwroot/icoBig.ico"
+    },
     "extraResources": [
       {
         "from": "./bin",

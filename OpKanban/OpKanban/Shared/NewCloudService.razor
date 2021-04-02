@@ -12,6 +12,9 @@
 <label>Company</label>
 <input type="text" @bind="txt_comp" @bind:event="onchange" class="form-control" />
 
+<label>NTSE</label>
+<input type="text" @bind="txt_ntse" @bind:event="onchange" class="form-control" />
+
 <label>Notes</label>
 <textarea rows="3" class="form-control" @bind="txt_note" @bind:event="onchange" ></textarea>
 
@@ -42,7 +45,7 @@
     [Parameter] 
     public EventCallback<bool> HasClosed { get; set; }
 
-    private string txt_name, txt_link, txt_comp, ddl_color, txt_note;
+    private string txt_name, txt_link, txt_comp, ddl_color, txt_note, txt_ntse;
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,6 +66,8 @@
             cs.Color = ddl_color;
             cs.Company = txt_comp;
             cs.Partition = l.partition;
+            cs.Link = txt_link;
+            cs.NTSE = txt_ntse;
 
             l.realm.Write(() =>
             {

@@ -15,6 +15,9 @@
         <label>Company</label>
         <input type="text" value="@c.Company"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Company = __e.Value.ToString(); });})" class="form-control" />
 
+        <label>NTSE</label>
+        <input type="text" value="@c.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.NTSE = __e.Value.ToString(); });})" class="form-control" />
+
         <label>Notes</label>
         <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
 

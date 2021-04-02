@@ -1,0 +1,35 @@
+{
+  "title": "CloudService",
+  "bsonType": "object",
+  "required": [
+    "_id",
+    "_pk",
+    "name"
+  ],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "_pk": {
+      "bsonType": "string"
+    },
+    "name": {
+      "bsonType": "string"
+    },
+    "link": {
+      "bsonType": "string"
+    },
+    "note": {
+      "bsonType": "string"
+    },
+    "color": {
+      "bsonType": "string"
+    },
+    "company": {
+      "bsonType": "string"
+    },
+    "ntse": {
+      "bsonType": "string"
+    }
+  }
+}

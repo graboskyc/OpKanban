@@ -31,5 +31,8 @@ namespace OpKanban.Data
         [MapTo("company")]
         public string Company { get; set; }
 
+        [MapTo("ntse")]
+        public string NTSE { get; set; }
+
     }
 }

@@ -21,6 +21,9 @@
                                 <div class="card-body">
                                     <h5 class="card-title" style="border-top: 2px solid @c.Color">@c.Name</h5>
                                     <h6 class="card-subtitle mb-2 text-muted">@c.Company</h6>
+                                    @if(c.NTSE != null) {
+                                        <h6 class="card-subtitle mb-2 text-muted"><b>NTSE:</b> <i>@c.NTSE</i></h6>
+                                    }
                                     @if (c.Link != null)
                                     {
                                         <a href=@c.Link target="_blank" title="Link" class="card-link"><span class="oi oi-link-intact"></span></a>
