@@ -3,15 +3,30 @@
 
 <div style="display: grid;place-items: center;width: 100%;height: 100vh;">
     <div>
-        <p style="font-size: 10vh; text-align: center;color:var(--gsky-bg-lime); ">
-            Opp Kanban Tracker
-        </p>
-        <p style="text-align:center;">
-            @if(l.IsLoggedIn) {
-                @l.Username;
-                <PieChart />
-            }
-        </p>
+        <div class="row">
+            <p style="font-size: 10vh; text-align: center;color:var(--gsky-bg-lime); ">
+                Opp Kanban Tracker
+            </p>
+        </div>
+        @if(l.IsLoggedIn) {
+            <div class="row">
+                    <p style="text-align:center;width:100%;"> @l.Username</p>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-2">&nbsp;</div>
+            <div class="col-sm-4">
+                @if(l.IsLoggedIn) {
+                    <PieChart_Cards />
+                }
+            </div>
+            <div class="col-sm-4">
+                @if(l.IsLoggedIn) {
+                    <PieChart_Contacts />
+                }
+            </div>
+            <div class="col-sm-2">&nbsp;</div>
+        </div>
     </div>
 </div>
 
