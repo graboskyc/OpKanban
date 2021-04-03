@@ -12,12 +12,17 @@ namespace OpKanban.Data
         private static List<DDLOption> _l = new List<DDLOption>() {
             new DDLOption { Key="Red", Value="#E51400"},
             new DDLOption { Key="Cyan", Value="#1BA1E2"},
+            new DDLOption { Key="Amber", Value="#F0A30A"},
+            new DDLOption { Key="Crimson", Value="#A20025"},
             new DDLOption { Key="Emerald", Value="#008A00"},
             new DDLOption { Key="Green", Value="#60A917"},
             new DDLOption { Key="Indigo", Value="#6A00FF"},
             new DDLOption { Key="Magenta", Value="#D80073"},
             new DDLOption { Key="Mauve", Value="#76608A"},
-            new DDLOption { Key="Orange", Value="#FA6800"}
+            new DDLOption { Key="Orange", Value="#FA6800"},
+            new DDLOption { Key="Pink", Value="#F472D0"},
+            new DDLOption { Key="Teal", Value="#00ABA9"},
+            new DDLOption { Key="Yellow", Value="#E3C800"}
         };
         public static List<DDLOption> Colors {
             get {return _l;}
