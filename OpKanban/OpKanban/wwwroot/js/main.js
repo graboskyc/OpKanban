@@ -10,6 +10,10 @@ window.captureEnter = function(btnid) {
     });
 }
 
+window.RunSearch = function(s) {
+    window.find(s, false, false, true, false, false, false);
+}
+
 window.openEditModal = function() {
     $('#ctr_editmodal').modal('show');
 }

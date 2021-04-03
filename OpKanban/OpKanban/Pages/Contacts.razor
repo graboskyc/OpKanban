@@ -10,8 +10,12 @@
 
     @if (allContacts != null)
     {
+        <div class="row" style="margin-bottom:30px;">
+            <input type="text" @bind="search" class="form-control" style="width:50%;margin-right:20px;" /> 
+            <button @onclick="() => RunSearch(search)" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+        </div>
+
         <div class="row">
-            
             <div class="col-sm-8">
                     <h2 class="kanbancolumn">Contacts</h2>
                     <div class="d-flex flex-wrap">
@@ -63,6 +67,11 @@
     private IQueryable<Data.Contact> allContacts = null;
 
     private string editId = null;
+    private string search ="";
+
+    private async void RunSearch(string s) {
+        await JSRuntime.InvokeVoidAsync("RunSearch", s);
+    }
 
     private async void NewModalHasClosed(bool closed)
     {

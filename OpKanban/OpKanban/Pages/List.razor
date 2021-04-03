@@ -10,6 +10,11 @@
 
     @if (allTasks != null)
     {
+        <div class="row" style="margin-bottom:30px;">
+            <input type="text" @bind="search" class="form-control" style="width:50%;margin-right:20px;" /> 
+            <button @onclick="() => RunSearch(search)" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+        </div>
+
         <div class="row">
             @foreach (var c in columns)
             {
@@ -98,6 +103,7 @@
 @code {
     private IQueryable<Data.KanbanTask> allTasks = null;
     private string[] columns = { "Discovery", "Sizing", "Tech Validation" };
+    private string search ="";
 
     private string editId = null;
     private string newStage = "Discovery";
@@ -129,6 +135,10 @@
             allTasks = l.realm.All<Data.KanbanTask>();
         }
 
+    }
+
+    private async void RunSearch(string s) {
+        await JSRuntime.InvokeVoidAsync("RunSearch", s);
     }
 
     private async Task MoveCard(Data.KanbanTask kt)
