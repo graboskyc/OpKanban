@@ -2,6 +2,7 @@
 @using Realms;
 @using Realms.Sync;
 @inject Data.Login l;
+@using HeyRed.MarkdownSharp;
 
 <div class="edit-col">
     @if (c != null)
@@ -19,7 +20,13 @@
         <input type="text" value="@c.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.NTSE = __e.Value.ToString(); });})" class="form-control" />
 
         <label>Notes</label>
-        <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
+        @if(showNotesEditable || (@c.Note == null) || (c.Note.Length == 0)){
+            <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
+        } else {
+            <div @onclick="() => { showNotesEditable = true; }">
+                @notesInMarkdown
+            </div>
+        }
 
         <label>Color</label>
         <select id="ddl_color" name="ddl_color" class="form-control"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Color = __e.Value.ToString(); });})" value="@c.Color">
@@ -56,12 +63,17 @@
 
 
     private Data.CloudService c = null;
+    private MarkupString notesInMarkdown;
+    private bool showNotesEditable = false;
 
     protected async Task BuildForm()
     {
         if (l.IsLoggedIn.Equals(true) && (_id != null))
         {
+            showNotesEditable = false;
             c = l.realm.All<Data.CloudService>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
+            Markdown mark = new Markdown();
+            notesInMarkdown = (MarkupString)mark.Transform(c.Note);
             StateHasChanged();
         }
     }

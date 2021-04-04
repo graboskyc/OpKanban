@@ -2,6 +2,7 @@
 @using Realms;
 @using Realms.Sync;
 @inject Data.Login l;
+@using HeyRed.MarkdownSharp;
 
 <div class="edit-col">
     @if (c != null)
@@ -31,14 +32,36 @@
         <input type="text" value="@c.Tenure"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Tenure = __e.Value.ToString(); });})" class="form-control" />
 
         <label>Notes</label>
-        <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
+         @if(showNotesEditable || (@c.Note == null) || (c.Note.Length == 0)){
+            <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
 
+        } else {
+            <div @onclick="() => { showNotesEditable = true; }">
+                @notesInMarkdown
+            </div>
+        }
+        
         <label>Family</label>
-        <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Family = __e.Value.ToString(); });})" class="form-control" value="@c.Family"></textarea>
+        @if(showFamilyEditable || (@c.Family == null) || (c.Family.Length == 0)){
+            <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Family = __e.Value.ToString(); });})" class="form-control" value="@c.Family"></textarea>
+
+        } else {
+            <div @onclick="() => { showFamilyEditable = true; }">
+                @familyInMarkdown
+            </div>
+        }
+        
 
         <label>Interests</label>
-        <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Interests = __e.Value.ToString(); });})" class="form-control" value="@c.Interests"></textarea>
+        @if(showIntEditable || (@c.Family == null) || (c.Family.Length == 0)){
+            <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Interests = __e.Value.ToString(); });})" class="form-control" value="@c.Interests"></textarea>
 
+        } else {
+            <div @onclick="() => { showIntEditable = true; }">
+                @intInMarkdown
+            </div>
+        }
+        
         <label>Champion Status</label>
         <select id="ddl_champ" name="ddl_champ" class="form-control" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.ChampionStatus = __e.Value.ToString(); });})" value="@c.ChampionStatus">
             @foreach(var o in Data.DDL_Champs.Statuses) {
@@ -82,11 +105,21 @@
 
     private Data.Contact c = null;
 
+    private MarkupString notesInMarkdown, familyInMarkdown, intInMarkdown;
+    private bool showNotesEditable, showFamilyEditable, showIntEditable = false;
+
     protected async Task BuildForm()
     {
         if (l.IsLoggedIn.Equals(true) && (_id != null))
         {
+            showNotesEditable = false;
+            showFamilyEditable = false;
+            showIntEditable = false;
             c = l.realm.All<Data.Contact>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
+            Markdown mark = new Markdown();
+            notesInMarkdown = (MarkupString)mark.Transform(c.Note);
+            intInMarkdown = (MarkupString)mark.Transform(c.Interests);
+            familyInMarkdown = (MarkupString)mark.Transform(c.Family);
             StateHasChanged();
         }
     }

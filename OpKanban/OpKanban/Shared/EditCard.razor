@@ -2,6 +2,7 @@
 @using Realms;
 @using Realms.Sync;
 @inject Data.Login l;
+@using HeyRed.MarkdownSharp;
 
 <div>
     @if (kt != null)
@@ -22,8 +23,13 @@
         <input type="text" value="@kt.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.NTSE = __e.Value.ToString(); });})" class="form-control" />
 
         <label>Notes</label>
-        <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Note = __e.Value.ToString(); });})" class="form-control" value="@kt.Note"></textarea>
-
+        @if(showNotesEditable || (@kt.Note == null) || (kt.Note.Length == 0)){
+            <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Note = __e.Value.ToString(); });})" class="form-control" value="@kt.Note"></textarea>
+        } else {
+            <div @onclick="() => { showNotesEditable = true; }">
+                @notesInMarkdown
+            </div>
+        }
         <label>Stage</label>
         <select id="ddl_stage" name="ddl_stage" class="form-control"   @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Stage = __e.Value.ToString(); });})" value="@kt.Stage">
             @foreach(var o in Data.DDL_Stage.Stages) {
@@ -67,12 +73,17 @@
 
 
     private Data.KanbanTask kt = null;
+    private MarkupString notesInMarkdown;
+    private bool showNotesEditable = false;
 
     protected async Task BuildForm()
     {
         if (l.IsLoggedIn.Equals(true) && (_id != null))
         {
+            showNotesEditable = false;
             kt = l.realm.All<Data.KanbanTask>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
+            Markdown mark = new Markdown();
+            notesInMarkdown = (MarkupString)mark.Transform(kt.Note);
             StateHasChanged();
         }
     }
