@@ -48,7 +48,7 @@
         @if(showSlidedEditable || (@kt.Slides == null) || (kt.Slides.Length == 0)){
             <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Slides = __e.Value.ToString(); });})" class="form-control" value="@kt.Slides"></textarea>
         } else {
-            <div class="ctr_md" @onclick="() => { showNotesEditable = true; }">
+            <div class="ctr_md" @onclick="() => { showSlidedEditable = true; }">
                 @slidesInMarkdown
             </div>
         }
