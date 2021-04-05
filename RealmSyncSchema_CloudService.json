@@ -30,6 +30,9 @@
     },
     "ntse": {
       "bsonType": "string"
+    },
+    "slides": {
+      "bsonType": "string"
     }
   }
 }

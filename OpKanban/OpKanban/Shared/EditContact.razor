@@ -36,7 +36,7 @@
             <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
 
         } else {
-            <div @onclick="() => { showNotesEditable = true; }">
+            <div class="ctr_md" @onclick="() => { showNotesEditable = true; }">
                 @notesInMarkdown
             </div>
         }
@@ -46,7 +46,7 @@
             <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Family = __e.Value.ToString(); });})" class="form-control" value="@c.Family"></textarea>
 
         } else {
-            <div @onclick="() => { showFamilyEditable = true; }">
+            <div class="ctr_md" @onclick="() => { showFamilyEditable = true; }">
                 @familyInMarkdown
             </div>
         }
@@ -57,7 +57,7 @@
             <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Interests = __e.Value.ToString(); });})" class="form-control" value="@c.Interests"></textarea>
 
         } else {
-            <div @onclick="() => { showIntEditable = true; }">
+            <div class="ctr_md" @onclick="() => { showIntEditable = true; }">
                 @intInMarkdown
             </div>
         }

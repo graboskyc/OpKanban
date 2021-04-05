@@ -44,6 +44,9 @@
     },
     "note": {
       "bsonType": "string"
+    },
+    "slides": {
+      "bsonType": "string"
     }
   }
 }

@@ -34,5 +34,8 @@ namespace OpKanban.Data
         [MapTo("ntse")]
         public string NTSE { get; set; }
 
+        [MapTo("slides")]
+        public string Slides { get; set; }
+
     }
 }

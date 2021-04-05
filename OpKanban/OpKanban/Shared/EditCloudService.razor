@@ -23,7 +23,7 @@
         @if(showNotesEditable || (@c.Note == null) || (c.Note.Length == 0)){
             <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
         } else {
-            <div @onclick="() => { showNotesEditable = true; }">
+            <div class="ctr_md" @onclick="() => { showNotesEditable = true; }">
                 @notesInMarkdown
             </div>
         }
@@ -34,6 +34,15 @@
                 <option value="@o.Value">@o.Key</option>
             }
         </select>
+
+        <label>Slides</label>
+        @if(showSlidedEditable || (@c.Slides == null) || (c.Slides.Length == 0)){
+            <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Slides = __e.Value.ToString(); });})" class="form-control" value="@c.Slides"></textarea>
+        } else {
+            <div class="ctr_md" @onclick="() => { showNotesEditable = true; }">
+                @slidesInMarkdown
+            </div>
+        }
 
         <br>
         <div class="row">
@@ -63,17 +72,19 @@
 
 
     private Data.CloudService c = null;
-    private MarkupString notesInMarkdown;
-    private bool showNotesEditable = false;
+    private MarkupString notesInMarkdown, slidesInMarkdown;
+    private bool showNotesEditable, showSlidedEditable = false;
 
     protected async Task BuildForm()
     {
         if (l.IsLoggedIn.Equals(true) && (_id != null))
         {
             showNotesEditable = false;
+            showSlidedEditable = false;
             c = l.realm.All<Data.CloudService>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
             Markdown mark = new Markdown();
             notesInMarkdown = (MarkupString)mark.Transform(c.Note);
+            slidesInMarkdown  = (MarkupString)mark.Transform(c.Slides);
             StateHasChanged();
         }
     }

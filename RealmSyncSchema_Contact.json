@@ -39,8 +39,7 @@
     },
     "division": {
       "bsonType": "string"
-    }
-    ,
+    },
     "phone": {
       "bsonType": "string"
     },

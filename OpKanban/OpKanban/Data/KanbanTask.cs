@@ -40,5 +40,8 @@ namespace OpKanban.Data
 
         [MapTo("note")]
         public string Note { get; set; }
+
+        [MapTo("slides")]
+        public string Slides { get; set; }
     }
 }

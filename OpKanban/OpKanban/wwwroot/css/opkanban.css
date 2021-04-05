@@ -75,3 +75,7 @@ html,body {
 h2::before {
     border-top: 2px solid #000000;
 }
+
+.ctr_md { 
+    font-size: .75em;
+ }
