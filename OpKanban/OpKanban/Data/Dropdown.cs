@@ -33,9 +33,9 @@ namespace OpKanban.Data
     {
         private static List<DDLOption> _l = new List<DDLOption>() {
             new DDLOption { Key="Discovery", Value="Discovery"},
-            new DDLOption { Key="Discovery", Value="Discovery"},
             new DDLOption { Key="Sizing", Value="Sizing"},
             new DDLOption { Key="Tech Validation", Value="Tech Validation"},
+            new DDLOption { Key="Contract/Paper", Value="Contract/Paper"},
             new DDLOption { Key="Closed Won", Value="Closed Won"},
             new DDLOption { Key="Closed Lost", Value="Closed Lost"}
         };
@@ -52,7 +52,9 @@ namespace OpKanban.Data
             new DDLOption { Key="Skeptic", Value="Skeptic"},
             new DDLOption { Key="Champion", Value="Champion"},
             new DDLOption { Key="Tested Champion", Value="Tested Champion"},
+            new DDLOption { Key="Coach", Value="Coach"},
             new DDLOption { Key="EB", Value="EB"},
+            new DDLOption { Key="Adversary", Value="Adversary"},
             new DDLOption { Key="Blocker", Value="Blocker"}
         };
         public static List<DDLOption> Statuses {

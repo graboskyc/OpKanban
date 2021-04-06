@@ -18,7 +18,7 @@
         <div class="row">
             @foreach (var c in columns)
             {
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <h2 class="kanbancolumn"> @c</h2>
                     @foreach (var kt in allTasks.Where(k => k.Stage == @c).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                     {
@@ -51,13 +51,13 @@
                 </div>
             }
 
-            <div class="col-md-3">
+            <div class="col-md-2">
                 <h2 class="kanbancolumn"> Closed</h2>
                 @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                 {
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title" style="border-top: 2px solid @kt.Color">@kt.Name</h5>
+                            <h5 class="card-title" style="border-top: 2px solid @kt.Color"><a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link">@kt.Name</a></h5>
                             <h6 class="card-subtitle mb-2 text-muted">@kt.Stage <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a></h6> 
                         </div>
                     </div>
@@ -102,7 +102,7 @@
 
 @code {
     private IQueryable<Data.KanbanTask> allTasks = null;
-    private string[] columns = { "Discovery", "Sizing", "Tech Validation" };
+    private string[] columns = { "Discovery", "Sizing", "Tech Validation", "Contract/Paper" };
     private string search ="";
 
     private string editId = null;
@@ -152,7 +152,8 @@
             string ns = "Discovery";
             if (kt.Stage == "Discovery") { ns = "Sizing"; }
             else if (kt.Stage == "Sizing") { ns = "Tech Validation"; }
-            else if (kt.Stage == "Tech Validation") { ns = "Closed Won"; }
+            else if (kt.Stage == "Tech Validation") { ns = "Contract/Paper"; }
+            else if (kt.Stage == "Contract/Paper") { ns = "Closed Won"; }
             else if (kt.Stage == "Closed Won") { ns = "Closed Lost"; }
 
             l.realm.Write(() =>

@@ -31,34 +31,44 @@
         <label>Tenure</label>
         <input type="text" value="@c.Tenure"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Tenure = __e.Value.ToString(); });})" class="form-control" />
 
-        <label>Notes</label>
+        <label @onclick="() => { showNotesEditable = true; }">Notes</label>
          @if(showNotesEditable || (@c.Note == null) || (c.Note.Length == 0)){
             <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Note = __e.Value.ToString(); });})" class="form-control" value="@c.Note"></textarea>
 
         } else {
-            <div class="ctr_md" @onclick="() => { showNotesEditable = true; }">
+            <div class="ctr_md">
                 @notesInMarkdown
             </div>
         }
         
-        <label>Family</label>
+        <label @onclick="() => { showFamilyEditable = true; }">Family</label>
         @if(showFamilyEditable || (@c.Family == null) || (c.Family.Length == 0)){
             <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Family = __e.Value.ToString(); });})" class="form-control" value="@c.Family"></textarea>
 
         } else {
-            <div class="ctr_md" @onclick="() => { showFamilyEditable = true; }">
+            <div class="ctr_md">
                 @familyInMarkdown
             </div>
         }
         
 
-        <label>Interests</label>
+        <label @onclick="() => { showIntEditable = true; }">Interests</label>
         @if(showIntEditable || (@c.Family == null) || (c.Family.Length == 0)){
             <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.Interests = __e.Value.ToString(); });})" class="form-control" value="@c.Interests"></textarea>
 
         } else {
-            <div class="ctr_md" @onclick="() => { showIntEditable = true; }">
+            <div class="ctr_md">
                 @intInMarkdown
+            </div>
+        }
+
+        <label @onclick="() => { showTCBAEditable = true; }">Tech Champion Building Actions</label>
+        @if(showTCBAEditable || (@c.TCBActions == null) || (c.TCBActions.Length == 0)){
+            <textarea rows="3" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ c.TCBActions = __e.Value.ToString(); });})" class="form-control" value="@c.TCBActions"></textarea>
+
+        } else {
+            <div class="ctr_md">
+                @tcbaInMarkdown
             </div>
         }
         
@@ -105,8 +115,8 @@
 
     private Data.Contact c = null;
 
-    private MarkupString notesInMarkdown, familyInMarkdown, intInMarkdown;
-    private bool showNotesEditable, showFamilyEditable, showIntEditable = false;
+    private MarkupString notesInMarkdown, familyInMarkdown, intInMarkdown, tcbaInMarkdown;
+    private bool showNotesEditable, showFamilyEditable, showIntEditable, showTCBAEditable = false;
 
     protected async Task BuildForm()
     {
@@ -115,11 +125,13 @@
             showNotesEditable = false;
             showFamilyEditable = false;
             showIntEditable = false;
+            showTCBAEditable = false;
             c = l.realm.All<Data.Contact>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
             Markdown mark = new Markdown();
             notesInMarkdown = (MarkupString)mark.Transform(c.Note);
             intInMarkdown = (MarkupString)mark.Transform(c.Interests);
             familyInMarkdown = (MarkupString)mark.Transform(c.Family);
+            tcbaInMarkdown = (MarkupString)mark.Transform(c.TCBActions);
             StateHasChanged();
         }
     }

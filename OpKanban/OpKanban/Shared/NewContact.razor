@@ -86,6 +86,10 @@
             c.Tenure = txt_tenure;
             c.LinkedIn = txt_li;
 
+            if((c.ChampionStatus != "Not a target") && (c.ChampionStatus != "EB")) {
+                c.TCBActions = "### Build Actions\n### Test Actions\n### Plan Timeline\n";
+            }
+
             l.realm.Write(() =>
             {
                 l.realm.Add(c);

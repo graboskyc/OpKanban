@@ -22,11 +22,11 @@
         <label>NTSE</label>
         <input type="text" value="@kt.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.NTSE = __e.Value.ToString(); });})" class="form-control" />
 
-        <label>Notes</label>
+        <label @onclick="() => { showNotesEditable = true; }">Notes</label>
         @if(showNotesEditable || (@kt.Note == null) || (kt.Note.Length == 0)){
             <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Note = __e.Value.ToString(); });})" class="form-control" value="@kt.Note"></textarea>
         } else {
-            <div class="ctr_md" @onclick="() => { showNotesEditable = true; }">
+            <div class="ctr_md">
                 @notesInMarkdown
             </div>
         }
@@ -44,11 +44,11 @@
             }
         </select>
 
-        <label>Slides</label>
+        <label @onclick="() => { showSlidedEditable = true; }">Slides</label>
         @if(showSlidedEditable || (@kt.Slides == null) || (kt.Slides.Length == 0)){
             <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Slides = __e.Value.ToString(); });})" class="form-control" value="@kt.Slides"></textarea>
         } else {
-            <div class="ctr_md" @onclick="() => { showSlidedEditable = true; }">
+            <div class="ctr_md">
                 @slidesInMarkdown
             </div>
         }

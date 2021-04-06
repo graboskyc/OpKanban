@@ -51,6 +51,9 @@
     },
     "linkedin": {
       "bsonType": "string"
+    },
+    "tcbActions": {
+      "bsonType": "string"
     }
   }
 }

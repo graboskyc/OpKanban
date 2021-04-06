@@ -53,5 +53,8 @@ namespace OpKanban.Data
 
         [MapTo("tenure")]
         public string Tenure { get; set; }
+
+        [MapTo("tcbActions")]
+        public string TCBActions { get; set; }
     }
 }
