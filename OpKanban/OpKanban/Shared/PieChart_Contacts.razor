@@ -30,16 +30,16 @@
     protected override async Task OnInitializedAsync() {
         if (l.IsLoggedIn.Equals(true))
         {
-            chartOptions.Colors = new List<string>(new string[] {"#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7"});
+            chartOptions.Colors = new List<string>(new string[] {"#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7","#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7"});
             chartOptions.Legend = new Legend{Show = true};
             chartOptions.Chart = new Chart();
             chartOptions.Chart.Toolbar = new Toolbar{Show=false};
-            var allContacts = l.realm.All<Data.Contact>().ToList();
+            var allContacts = l.realm.All<Data.Contact>().Where(c => c.ChampionStatus != null).ToList();
             var q = from c in allContacts 
                     group c by c.ChampionStatus
                     into newGroup 
                     select new {
-                         ChampionStatus = newGroup.Key, Count = newGroup.Count()
+                        ChampionStatus = newGroup.Key, Count = newGroup.Count()
                     };
 
             groupList = q.Select(g=>new GBValues(){ChampionStatus = g.ChampionStatus, Count = g.Count}).ToList();

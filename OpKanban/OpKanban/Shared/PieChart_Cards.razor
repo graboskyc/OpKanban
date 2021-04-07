@@ -30,11 +30,11 @@
     protected override async Task OnInitializedAsync() {
         if (l.IsLoggedIn.Equals(true))
         {
-            chartOptions.Colors = new List<string>(new string[] {"#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7"});
+            chartOptions.Colors = new List<string>(new string[] {"#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7","#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7"});
             chartOptions.Legend = new Legend{Show = true};
             chartOptions.Chart = new Chart();
             chartOptions.Chart.Toolbar = new Toolbar{Show=false};
-            var allTasks = l.realm.All<Data.KanbanTask>().ToList();
+            var allTasks = l.realm.All<Data.KanbanTask>().Where(c => c.Stage != null).ToList();
             var q = from kt in allTasks 
                     group kt by kt.Stage 
                     into newGroup 
