@@ -1,4 +1,5 @@
 ﻿@page "/list"
+@page "/ops"
 @using MongoDB.Bson;
 @using Realms;
 @using Realms.Sync;
@@ -11,8 +12,23 @@
     @if (allTasks != null)
     {
         <div class="row" style="margin-bottom:30px;">
-            <input type="text" @bind="search" class="form-control" style="width:50%;margin-right:20px;" /> 
-            <button @onclick="() => RunSearch(search)" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+            <div class="col-md-4">
+                <input type="text" @bind="search" class="form-control" /> 
+            </div>
+            <div class="col-md-1">
+                <button @onclick="() => RunSearch(search)" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+            </div>
+            
+            <div class="col-md-3">
+                <select id="ddl_color" name="ddl_color" class="form-control" value="@ddl_color" @onchange="@((ChangeEventArgs __e) => { QueryDB(__e.Value.ToString()); })">
+                    <option value="All">All</option>
+                    @foreach(var o in Data.DDL_Color.Colors) {
+                        <option value="@o.Value">@o.Key</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">&nbsp;</div>
         </div>
 
         <div class="row">
@@ -107,19 +123,30 @@
 
     private string editId = null;
     private string newStage = "Discovery";
+    private string ddl_color = "All";
+
+    private async void QueryDB(string color = null) {
+        if(color != null) {
+            ddl_color = color;
+        }
+
+        StateHasChanged();
+        if(ddl_color == "All") {
+            allTasks = l.realm.All<Data.KanbanTask>();
+        } else {
+            allTasks = l.realm.All<Data.KanbanTask>().Where(k => k.Color == ddl_color);
+        }
+        StateHasChanged();
+    }
 
     private async void EditModalHasClosed(bool closed)
     {
-        StateHasChanged();
-        allTasks = l.realm.All<Data.KanbanTask>();
-        StateHasChanged();
+        QueryDB();
         await JSRuntime.InvokeVoidAsync("closeEditModal");
     }
     private async void NewModalHasClosed(bool closed)
     {
-        StateHasChanged();
-        allTasks = l.realm.All<Data.KanbanTask>();
-        StateHasChanged();
+        QueryDB();
         await JSRuntime.InvokeVoidAsync("closeNewModal");
     }
 
@@ -132,7 +159,7 @@
         else
         {
 
-            allTasks = l.realm.All<Data.KanbanTask>();
+            QueryDB();
         }
 
     }
@@ -161,7 +188,7 @@
                 kt.Stage = ns;
             });
 
-            allTasks = l.realm.All<Data.KanbanTask>();
+            QueryDB();
         }
     }
 
