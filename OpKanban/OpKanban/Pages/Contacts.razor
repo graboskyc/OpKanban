@@ -11,8 +11,24 @@
     @if (allContacts != null)
     {
         <div class="row" style="margin-bottom:30px;">
-            <input type="text" @bind="search" class="form-control" style="width:50%;margin-right:20px;" /> 
-            <button @onclick="() => RunSearch(search)" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+            <div class="col-md-4">
+                <input type="text" @bind="search" class="form-control" /> 
+            </div>
+            <div class="col-md-1">
+                <button @onclick="() => RunSearch(search)" class="btn btn-primary"><span class="oi oi-magnifying-glass"></span></button>
+            </div>
+            
+            <div class="col-md-3">
+                <select id="ddl_color" name="ddl_color" class="form-control" value="@ddl_color" @onchange="@((ChangeEventArgs __e) => { QueryDB(__e.Value.ToString()); })">
+                    @if(colorsInUse != null) {
+                        foreach(var o in colorsInUse) {
+                            <option value="@o.Value">@o.Key</option>
+                        }
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-4">&nbsp;</div>
         </div>
 
         <div class="row">
@@ -67,7 +83,28 @@
     private IQueryable<Data.Contact> allContacts = null;
 
     private string editId = null;
-    private string search ="";
+    private string search ="";private string ddl_color = "All";
+    private List<Data.DDLOption> colorsInUse = new List<Data.DDLOption>();
+
+    private async void QueryDB(string color = null) {
+        if(color != null) {
+            ddl_color = color;
+        }
+
+        StateHasChanged();
+        if(ddl_color == "All") {
+            allContacts = l.realm.All<Data.Contact>();
+            foreach (var c in allContacts.OrderBy(c => c.Color)) {
+                if(!colorsInUse.Any(i => i.Value == c.Color)) {
+                    string key = Data.DDL_Color.Colors.FirstOrDefault(ddl => ddl.Value == c.Color).Key;
+                    colorsInUse.Add(new Data.DDLOption{Key = key, Value = c.Color});
+                }
+            }
+        } else {
+            allContacts = l.realm.All<Data.Contact>().Where(k => k.Color == ddl_color);
+        }
+        StateHasChanged();
+    }
 
     private async void RunSearch(string s) {
         await JSRuntime.InvokeVoidAsync("RunSearch", s);
@@ -75,9 +112,7 @@
 
     private async void NewModalHasClosed(bool closed)
     {
-        StateHasChanged();
-        allContacts = l.realm.All<Data.Contact>();
-        StateHasChanged();
+        QueryDB();
         await JSRuntime.InvokeVoidAsync("closeNewModal");
     }
 
@@ -89,14 +124,14 @@
 
     protected override async Task OnInitializedAsync()
     {
+        colorsInUse.Add(new Data.DDLOption(){Key = "All", Value="All"});
         if (l.IsLoggedIn.Equals(false))
         {
             NavigationManager.NavigateTo("/login");
         }
         else
         {
-
-            allContacts = l.realm.All<Data.Contact>();
+            QueryDB();
         }
 
     }
