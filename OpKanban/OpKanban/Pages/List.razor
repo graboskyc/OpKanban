@@ -21,9 +21,10 @@
             
             <div class="col-md-3">
                 <select id="ddl_color" name="ddl_color" class="form-control" value="@ddl_color" @onchange="@((ChangeEventArgs __e) => { QueryDB(__e.Value.ToString()); })">
-                    <option value="All">All</option>
-                    @foreach(var o in Data.DDL_Color.Colors) {
-                        <option value="@o.Value">@o.Key</option>
+                    @if(colorsInUse != null) {
+                        foreach(var o in colorsInUse) {
+                            <option value="@o.Value">@o.Key</option>
+                        }
                     }
                 </select>
             </div>
@@ -124,6 +125,7 @@
     private string editId = null;
     private string newStage = "Discovery";
     private string ddl_color = "All";
+    private List<Data.DDLOption> colorsInUse = new List<Data.DDLOption>();
 
     private async void QueryDB(string color = null) {
         if(color != null) {
@@ -133,6 +135,12 @@
         StateHasChanged();
         if(ddl_color == "All") {
             allTasks = l.realm.All<Data.KanbanTask>();
+            foreach (var c in allTasks.OrderBy(c => c.Color)) {
+                if(!colorsInUse.Any(i => i.Value == c.Color)) {
+                    string key = Data.DDL_Color.Colors.FirstOrDefault(ddl => ddl.Value == c.Color).Key;
+                    colorsInUse.Add(new Data.DDLOption{Key = key, Value = c.Color});
+                }
+            }
         } else {
             allTasks = l.realm.All<Data.KanbanTask>().Where(k => k.Color == ddl_color);
         }
@@ -152,6 +160,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        colorsInUse.Add(new Data.DDLOption(){Key = "All", Value="All"});
         if (l.IsLoggedIn.Equals(false))
         {
             NavigationManager.NavigateTo("/login");
