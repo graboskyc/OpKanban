@@ -11,6 +11,12 @@
 
     @if (allTasks != null)
     {
+        <div class="row">
+            <div class="col-md-4">Search Cards</div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-3">Filter</div>
+            <div class="col-md-4">Hide Closed</div>
+        </div>
         <div class="row" style="margin-bottom:30px;">
             <div class="col-md-4">
                 <input type="text" @bind="search" class="form-control" /> 
@@ -29,13 +35,19 @@
                 </select>
             </div>
 
-            <div class="col-md-4">&nbsp;</div>
+            <div class="col-md-4">
+                <select id="ddl_hideClosed" name="ddl_hideClosed" class="form-control" value="@ddl_hideClosed" @onchange="@((ChangeEventArgs __e) => { HideClosed(bool.Parse(__e.Value.ToString())); })">
+                    <option value="true">Hide</option>
+                    <option value="false">Show</option>
+                </select>
+                
+            </div>
         </div>
 
         <div class="row">
             @foreach (var c in columns)
             {
-                <div class="col-md-2">
+                <div class="@colWidthClass">
                     <h2 class="kanbancolumn"> @c</h2>
                     @foreach (var kt in allTasks.Where(k => k.Stage == @c).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                     {
@@ -68,18 +80,20 @@
                 </div>
             }
 
-            <div class="col-md-2">
-                <h2 class="kanbancolumn"> Closed</h2>
-                @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
-                {
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title" style="border-top: 2px solid @kt.Color"><a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link">@kt.Name</a></h5>
-                            <h6 class="card-subtitle mb-2 text-muted">@kt.Stage <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a></h6> 
+            @if(!bool.Parse(ddl_hideClosed)) {
+                <div class="col-md-2">
+                    <h2 class="kanbancolumn"> Closed</h2>
+                    @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" style="border-top: 2px solid @kt.Color"><a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link">@kt.Name</a></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@kt.Stage <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a></h6> 
+                            </div>
                         </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
 
         </div>
     }
@@ -126,6 +140,8 @@
     private string newStage = "Discovery";
     private string ddl_color = "All";
     private List<Data.DDLOption> colorsInUse = new List<Data.DDLOption>();
+    private string ddl_hideClosed = "true";
+    private string colWidthClass = "col-md-3";
 
     private async void QueryDB(string color = null) {
         if(color != null) {
@@ -145,6 +161,15 @@
             allTasks = l.realm.All<Data.KanbanTask>().Where(k => k.Color == ddl_color);
         }
         StateHasChanged();
+    }
+
+    private void HideClosed(bool isHidden) {
+        ddl_hideClosed = isHidden.ToString().ToLower();
+        if(isHidden) {
+            colWidthClass = "col-md-3";
+        } else {
+            colWidthClass = "col-md-2";
+        }
     }
 
     private async void EditModalHasClosed(bool closed)
