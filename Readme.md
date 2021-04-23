@@ -48,3 +48,5 @@ A simple Blazor Server app (with docker support or wrapped in Electron) to build
 ![](Screenshots/ss06.png)
 
 ![](Screenshots/ss07.png)
+
+![](Screenshots/ss08.png)
