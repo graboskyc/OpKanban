@@ -100,7 +100,7 @@
     {
         if (l.IsLoggedIn.Equals(true) && (_id != null))
         {
-            prodList = l.realm.All<Data.Product>().OrderByDescending(p => p.Name).ToList();
+            prodList = l.realm.All<Data.Product>().OrderByAscending(p => p.Name).ToList();
             showNotesEditable = false;
             showSlidedEditable = false;
             kt = l.realm.All<Data.KanbanTask>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));

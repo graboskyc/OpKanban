@@ -77,7 +77,7 @@
             ddl_stage = "Discovery";
         }
         ddl_color = "#E51400";
-        prodList = l.realm.All<Data.Product>().OrderByDescending(p => p.Name).ToList();
+        prodList = l.realm.All<Data.Product>().OrderByAscending(p => p.Name).ToList();
         StateHasChanged();
     }
     private async Task Insert()
