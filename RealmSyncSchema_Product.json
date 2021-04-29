@@ -1,0 +1,20 @@
+{
+  "title": "Product",
+  "bsonType": "object",
+  "required": [
+    "_id",
+    "_pk",
+    "name"
+  ],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId"
+    },
+    "_pk": {
+      "bsonType": "string"
+    },
+    "name": {
+      "bsonType": "string"
+    }
+  }
+}

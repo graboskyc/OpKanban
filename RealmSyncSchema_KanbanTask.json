@@ -47,6 +47,12 @@
     },
     "slides": {
       "bsonType": "string"
+    },
+    "productName": {
+      "bsonType": "string"
+    },
+    "productRef": {
+      "bsonType": "objectId"
     }
   }
 }
