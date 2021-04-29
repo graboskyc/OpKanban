@@ -14,18 +14,26 @@
             </div>
         }
         <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-5">
+            <div class="col-sm-4"><p>Op Stages</p></div>
+            <div class="col-sm-4"><p>Champions</p></div>
+            <div class="col-sm-4"><p>Op Products</p></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
                 @if(l.IsLoggedIn) {
                     <PieChart_Cards />
                 }
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 @if(l.IsLoggedIn) {
                     <PieChart_Contacts />
                 }
             </div>
-            <div class="col-sm-1"></div>
+            <div class="col-sm-4">
+                @if(l.IsLoggedIn) {
+                    <PieChart_Products />
+                }
+            </div>
         </div>
     </div>
 </div>
