@@ -12,13 +12,14 @@
     @if (allTasks != null)
     {
         <div class="row">
-            <div class="col-md-4">Search Cards</div>
+            <div class="col-md-3">Search Cards</div>
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-3">Filter</div>
-            <div class="col-md-4">Hide Closed</div>
+            <div class="col-md-2">Hide Closed</div>
+            <div class="col-md-3">Product</div>
         </div>
         <div class="row" style="margin-bottom:30px;">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <input type="text" @bind="search" class="form-control" /> 
             </div>
             <div class="col-md-1">
@@ -26,7 +27,7 @@
             </div>
             
             <div class="col-md-3">
-                <select id="ddl_color" name="ddl_color" class="form-control" value="@ddl_color" @onchange="@((ChangeEventArgs __e) => { QueryDB(__e.Value.ToString()); })">
+                <select id="ddl_color" name="ddl_color" class="form-control" value="@ddl_color" @onchange="@((ChangeEventArgs __e) => { QueryDB(color: __e.Value.ToString() ); })">
                     @if(colorsInUse != null) {
                         foreach(var o in colorsInUse) {
                             <option value="@o.Value">@o.Key</option>
@@ -35,12 +36,20 @@
                 </select>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <select id="ddl_hideClosed" name="ddl_hideClosed" class="form-control" value="@ddl_hideClosed" @onchange="@((ChangeEventArgs __e) => { HideClosed(bool.Parse(__e.Value.ToString())); })">
                     <option value="true">Hide</option>
                     <option value="false">Show</option>
                 </select>
-                
+            </div>
+
+            <div class="col-md-3">
+                <select id="ddl_prod" name="ddl_prod" class="form-control" value="@ddl_prod" @onchange="@((ChangeEventArgs __e) => { QueryDB(product: __e.Value.ToString()); })">
+                    <option value="All">All</option>
+                    @foreach(var p in prodList) {
+                        <option value="@p.Id.ToString()">@p.Name</option>
+                    }
+                </select>
             </div>
         </div>
 
@@ -143,17 +152,23 @@
     private string editId = null;
     private string newStage = "Discovery";
     private string ddl_color = "All";
+    private string ddl_prod = "All";
     private List<Data.DDLOption> colorsInUse = new List<Data.DDLOption>();
     private string ddl_hideClosed = "true";
     private string colWidthClass = "col-md-3";
+    private List<Data.Product> prodList = null;
 
-    private async void QueryDB(string color = null) {
+    private async void QueryDB(string color = null, string product = null) {
         if(color != null) {
             ddl_color = color;
         }
 
+        if(product != null) {
+            ddl_prod = product;
+        }
+
         StateHasChanged();
-        if(ddl_color == "All") {
+        if((ddl_color == "All") && (ddl_prod == "All")) {
             allTasks = l.realm.All<Data.KanbanTask>();
             foreach (var c in allTasks.OrderBy(c => c.Color)) {
                 if(!colorsInUse.Any(i => i.Value == c.Color)) {
@@ -161,8 +176,14 @@
                     colorsInUse.Add(new Data.DDLOption{Key = key, Value = c.Color});
                 }
             }
-        } else {
+        } else if (ddl_prod == "All") {
             allTasks = l.realm.All<Data.KanbanTask>().Where(k => k.Color == ddl_color);
+        } else if(ddl_color == "All") {
+            Data.Product refProduct = l.realm.All<Data.Product>().FirstOrDefault(p => p.Id == MongoDB.Bson.ObjectId.Parse(ddl_prod));
+            allTasks = l.realm.All<Data.KanbanTask>().Where(k => k.Product == refProduct);
+        } else {
+            Data.Product refProduct = l.realm.All<Data.Product>().FirstOrDefault(p => p.Id == MongoDB.Bson.ObjectId.Parse(ddl_prod));
+            allTasks = l.realm.All<Data.KanbanTask>().Where(k => ( k.Product == refProduct && k.Color == ddl_color));
         }
         StateHasChanged();
     }
@@ -196,7 +217,7 @@
         }
         else
         {
-
+            prodList = l.realm.All<Data.Product>().OrderBy(p => p.Name).ToList();
             QueryDB();
         }
 
