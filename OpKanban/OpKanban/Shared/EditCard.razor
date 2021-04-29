@@ -22,6 +22,15 @@
         <label>NTSE</label>
         <input type="text" value="@kt.NTSE"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.NTSE = __e.Value.ToString(); });})" class="form-control" />
 
+        <label>Product</label>
+        @if(prodList != null) {
+        <select id="ddl_product" name="ddl_product" class="form-control"  @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Product = l.realm.All<Data.Product>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(__e.Value.ToString())); });})" value="@selectedProduct">
+            @foreach(var p in prodList) {
+                <option value="@p.Id.ToString()">@p.Name</option>
+            }
+        </select>
+        }
+        
         <label @onclick="() => { showNotesEditable = true; }">Notes</label>
         @if(showNotesEditable || (@kt.Note == null) || (kt.Note.Length == 0)){
             <textarea rows="5" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Note = __e.Value.ToString(); });})" class="form-control" value="@kt.Note"></textarea>
@@ -79,6 +88,8 @@
     public EventCallback<bool> HasClosed { get; set; }
 
     private string _id {get;set;} 
+    private List<Data.Product> prodList = null;
+    private string selectedProduct = "";
 
 
     private Data.KanbanTask kt = null;
@@ -89,12 +100,18 @@
     {
         if (l.IsLoggedIn.Equals(true) && (_id != null))
         {
+            prodList = l.realm.All<Data.Product>().ToList();
             showNotesEditable = false;
             showSlidedEditable = false;
             kt = l.realm.All<Data.KanbanTask>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(_id));
             Markdown mark = new Markdown();
             notesInMarkdown = (MarkupString)mark.Transform(kt.Note);
             slidesInMarkdown = (MarkupString)mark.Transform(kt.Slides);
+
+            if(kt.Product != null) {
+                selectedProduct = kt.Product.Id.ToString();
+            }
+            
             StateHasChanged();
         }
     }

@@ -1,0 +1,36 @@
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+
+<label>Name</label>
+<input type="text" @bind="txt_name" @bind:event="onchange" class="form-control" />
+
+<br>
+<button class="btn btn-lg btn-primary" @onclick="Insert" style="width:100%;">Create Product</button>
+
+@code {
+
+    private string txt_name;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+    private async Task Insert()
+    {
+        if (l.IsLoggedIn.Equals(true))
+        {
+            Data.Product p = new Data.Product();
+            p.Name = txt_name;
+            p.Partition = l.partition;
+
+            l.realm.Write(() =>
+            {
+                l.realm.Add(p);
+            });
+        }
+
+    }
+}
+

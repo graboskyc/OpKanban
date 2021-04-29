@@ -32,6 +32,15 @@
     }
 </select>
 
+<label>Product</label>
+@if(prodList != null) {
+    <select id="ddl_product" name="ddl_product" class="form-control" @bind="ddl_product" >
+        @foreach(var p in prodList) {
+            <option value="@p.Id.ToString()">@p.Name</option>
+        }
+    </select>
+}
+
 <br>
 <button class="btn btn-lg btn-primary" @onclick="Insert" style="width:100%;">Track New Op</button>
 
@@ -51,8 +60,10 @@
 
     [Parameter] 
     public EventCallback<bool> HasClosed { get; set; }
+        
+    private List<Data.Product> prodList = null;
 
-    private string txt_name, txt_link, txt_pop, ddl_stage, ddl_color, txt_ntse, txt_people;
+    private string txt_name, txt_link, txt_pop, ddl_stage, ddl_color, txt_ntse, txt_people, txt_product, ddl_product;
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,6 +77,7 @@
             ddl_stage = "Discovery";
         }
         ddl_color = "#E51400";
+        prodList = l.realm.All<Data.Product>().ToList();
         StateHasChanged();
     }
     private async Task Insert()
@@ -81,6 +93,7 @@
             kt.Color = ddl_color;
             kt.Team = txt_people;
             kt.NTSE = txt_ntse;
+            kt.Product = l.realm.All<Data.Product>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(ddl_product) );
 
             l.realm.Write(() =>
             {

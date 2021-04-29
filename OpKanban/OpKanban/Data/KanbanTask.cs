@@ -43,5 +43,10 @@ namespace OpKanban.Data
 
         [MapTo("slides")]
         public string Slides { get; set; }
+
+        [MapTo("productName")]
+        public string ProductName { get; set; }
+        [MapTo("productRef")]
+        public Product Product {get;set;}
     }
 }

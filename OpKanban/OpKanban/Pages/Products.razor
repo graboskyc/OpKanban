@@ -1,0 +1,71 @@
+﻿@page "/products"
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+<div class="content px-4">
+
+    @if (allProducts != null)
+    {
+        <div class="row">
+            <div class="col-sm-8">
+                    <h2 class="kanbancolumn">Products</h2>
+                    <div class="d-flex flex-wrap">
+                        @foreach (var p in allProducts.OrderBy(c => c.Name))
+                        {
+                            <div class="card" style="width: 18rem;float:left;margin:10px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">@p.Name</h5>
+                                    <a @onclick="() => EditCard(p)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+            </div>
+
+            <div class="col-sm-4">
+                @if(editId != null) {
+                    <EditProduct Id="@editId" HasClosed=@EditModalHasClosed />
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    private IQueryable<Data.Product> allProducts = null;
+
+    private string editId = null;
+
+    private async void EditModalHasClosed(bool closed)
+    {
+        StateHasChanged();
+        allProducts = l.realm.All<Data.Product>();
+    }
+
+    private async Task EditCard(Data.Product p)
+    {
+        editId = p.Id.ToString();
+        StateHasChanged();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (l.IsLoggedIn.Equals(false))
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            allProducts = l.realm.All<Data.Product>();
+        }
+
+    }
+
+
+}
+

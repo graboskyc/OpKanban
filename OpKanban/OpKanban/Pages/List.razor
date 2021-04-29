@@ -58,6 +58,10 @@
                                 {
                                     <h6 class="card-subtitle mb-2 text-muted"><b>NTSE:</b> @kt.NTSE</h6>
                                 }
+                                @if (kt.Product != null)
+                                {
+                                    <h6 class="card-subtitle mb-2 text-muted">@kt.Product.Name</h6>
+                                }
                                 @if (kt.Team != null)
                                 {
                                     <p class="card-text" style="font-size: 12px; font-style: italic;"><i>@kt.Team</i></p>
