@@ -53,6 +53,13 @@
             }
         </select>
 
+        <label>Health</label>
+        <select id="ddl_health" name="ddl_health" class="form-control"   @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Health = __e.Value.ToString(); });})" value="@kt.Health">
+            @foreach(var o in Data.DDL_Health.Healths) {
+                <option value="@o.Value">@o.Key</option>
+            }
+        </select>
+
         <label @onclick="() => { showSlidedEditable = true; }">Slides</label>
         @if(showSlidedEditable || (@kt.Slides == null) || (kt.Slides.Length == 0)){
             <textarea rows="4" @onchange="@((ChangeEventArgs __e) => { l.realm.Write(() =>{ kt.Slides = __e.Value.ToString(); });})" class="form-control" value="@kt.Slides"></textarea>

@@ -48,5 +48,7 @@ namespace OpKanban.Data
         public string ProductName { get; set; }
         [MapTo("productRef")]
         public Product Product {get;set;}
+        [MapTo("health")]
+        public string Health {get;set;}
     }
 }

@@ -86,6 +86,10 @@
                                 }
                                 <a @onclick="() => EditCard(kt)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a>
                                 <a @onclick="() => MoveCard(kt)" title="Move Stage" class="card-link"><span class="oi oi-caret-right"></span></a>
+                                @if (kt.Health != null)
+                                {
+                                    <a @onclick="() => EditCard(kt)" title="Edit" class="card-link">@kt.Health</a>
+                                }
     </div>
                         </div>
                     }

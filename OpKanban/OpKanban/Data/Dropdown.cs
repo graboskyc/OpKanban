@@ -61,4 +61,21 @@ namespace OpKanban.Data
             get {return _l;}
         }
     }
+
+    class DDL_Health
+    {
+        private static List<DDLOption> _l = new List<DDLOption>() {
+            new DDLOption { Key="🤔", Value="🤔"},
+            new DDLOption { Key="🤑", Value="🤑"},
+            new DDLOption { Key="💰", Value="💰"},
+            new DDLOption { Key="👍", Value="👍"},
+            new DDLOption { Key="⚖️", Value="⚖️"},
+            new DDLOption { Key="👎", Value="👎"},
+            new DDLOption { Key="🤢", Value="🤢"},
+            new DDLOption { Key="💩", Value="💩"}
+        };
+        public static List<DDLOption> Healths {
+            get {return _l;}
+        }
+    }
 }

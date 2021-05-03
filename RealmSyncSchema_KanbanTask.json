@@ -51,6 +51,9 @@
     "productName": {
       "bsonType": "string"
     },
+    "health": {
+      "bsonType": "string"
+    },
     "productRef": {
       "bsonType": "objectId"
     }
