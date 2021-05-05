@@ -1,0 +1,51 @@
+@using ApexCharts;
+@using MongoDB.Bson;
+@using Realms;
+@using Realms.Sync;
+@inject Data.Login l;
+
+@if(l.IsLoggedIn.Equals(true)){
+    <div style="margin-top:20px;">
+        <ApexChart TItem="GBValues" ChartType="ChartType.Pie" Options="chartOptions" Height="300">
+            <ApexSeries TItem="GBValues"
+                        Items="@groupList"
+                        Name="Spend"
+                        XValue="@(e => e.HealthName)"
+                        YValue="@(e => e.HealthCount)"
+                        ShowDataLabels="true" />
+        </ApexChart>
+    </div>
+}
+
+@code {
+
+    private ApexChartOptions<GBValues> chartOptions = new ApexChartOptions<GBValues>();
+    private List<GBValues> groupList = new List<GBValues>();
+
+    private class GBValues {
+        public string HealthName {get; set;}
+        public int HealthCount {get; set;}
+    }
+
+    protected override async Task OnInitializedAsync() {
+        if (l.IsLoggedIn.Equals(true))
+        {
+            chartOptions.Colors = new List<string>(new string[] {"#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7","#647687", "#2A2C2B", "#374140", "#D9CB9E", "#BDC3C7"});
+            chartOptions.Legend = new Legend{Show = true};
+            //chartOptions.Legend.Position = LegendPosition.Bottom;
+            chartOptions.Chart = new Chart();
+            chartOptions.Chart.Toolbar = new Toolbar{Show=false};
+            var allTasks = l.realm.All<Data.KanbanTask>().Where(c => (c.Health != null) && (c.Stage != "Closed Won") && (c.Stage != "Closed Lost")).ToList();
+            var q = from kt in allTasks 
+                    group kt by kt.Health 
+                    into newGroup 
+                    select new {
+                         HealthName = newGroup.Key, HealthCount = newGroup.Count()
+                    };
+
+            groupList = q.Select(g=>new GBValues(){HealthName = g.HealthName, HealthCount = g.HealthCount}).ToList();
+
+            StateHasChanged();
+        }
+    }
+}

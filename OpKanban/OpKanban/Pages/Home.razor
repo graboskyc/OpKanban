@@ -2,31 +2,36 @@
 @inject Data.Login l;
 
 <div style="display: grid;place-items: center;width: 100%;height: 100vh;">
-    <div>
+    <div style="width:100%;">
         <div class="row">
-            <p style="font-size: 10vh; text-align: center;color:var(--gsky-bg-lime); ">
+            <p style="font-size: 10vh; text-align: center;color:var(--gsky-bg-lime);width:100%; ">
                 Opp Kanban Tracker
             </p>
         </div>
+    
         @if(l.IsLoggedIn) {
             <div class="row">
                     <p style="text-align:center;width:100%;"> @l.Username</p>
             </div>
         
             <div class="row">
-                <div class="col-sm-4" style="text-align:center;font-weight:bold;"><p>Op Stages</p></div>
-                <div class="col-sm-4" style="text-align:center;font-weight:bold;"><p>Champions</p></div>
-                <div class="col-sm-4" style="text-align:center;font-weight:bold;"><p>Op Products</p></div>
+                <div class="col-sm-3" style="text-align:center;font-weight:bold;"><p>Op Stages</p></div>
+                <div class="col-sm-3" style="text-align:center;font-weight:bold;"><p>Champions</p></div>
+                <div class="col-sm-3" style="text-align:center;font-weight:bold;"><p>Op Products</p></div>
+                <div class="col-sm-3" style="text-align:center;font-weight:bold;"><p>Open Op Health</p></div>
             </div>
             <div class="row">
-                <div class="col-sm-4" style="padding:5px;">
+                <div class="col-sm-3" style="padding:5px;">
                         <PieChart_Cards />
                 </div>
-                <div class="col-sm-4" style="padding:5px;">
+                <div class="col-sm-3" style="padding:5px;">
                         <PieChart_Contacts />
                 </div>
-                <div class="col-sm-4" style="padding:5px;">
+                <div class="col-sm-3" style="padding:5px;">
                         <PieChart_Products />
+                </div>
+                <div class="col-sm-3" style="padding:5px;">
+                        <PieChart_Health />
                 </div>
             </div>
         }
