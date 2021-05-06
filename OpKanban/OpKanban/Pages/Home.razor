@@ -11,7 +11,12 @@
     
         @if(l.IsLoggedIn) {
             <div class="row">
-                    <p style="text-align:center;width:100%;"> @l.Username</p>
+                    <p style="text-align:center;width:100%;"> 
+                        <span>@l.Username</span>
+                        @if(activeOpCount > 0) {
+                            <span> is working @activeOpCount ops</span>
+                        }
+                    </p>
             </div>
         
             <div class="row">
@@ -31,10 +36,18 @@
                         <PieChart_Products />
                 </div>
                 <div class="col-sm-3" style="padding:5px;">
-                        <PieChart_Health />
+                        <PieChart_Health OnLoadActiveOpCount=@UpdateActiveOpCount />
                 </div>
             </div>
         }
     </div>
 </div>
+
+@code {
+    private int activeOpCount = 0;
+    private void UpdateActiveOpCount(int value)
+    {
+        activeOpCount = value;
+    }
+}
 

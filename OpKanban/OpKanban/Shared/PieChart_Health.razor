@@ -18,6 +18,8 @@
 }
 
 @code {
+     [Parameter] 
+    public EventCallback<int> OnLoadActiveOpCount { get; set; }
 
     private ApexChartOptions<GBValues> chartOptions = new ApexChartOptions<GBValues>();
     private List<GBValues> groupList = new List<GBValues>();
@@ -44,6 +46,7 @@
                     };
 
             groupList = q.Select(g=>new GBValues(){HealthName = g.HealthName, HealthCount = g.HealthCount}).ToList();
+            await OnLoadActiveOpCount.InvokeAsync(allTasks.Count());
 
             StateHasChanged();
         }
