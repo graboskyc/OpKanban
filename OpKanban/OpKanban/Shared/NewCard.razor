@@ -94,7 +94,13 @@
             kt.Team = txt_people;
             kt.NTSE = txt_ntse;
             kt.Health = "🤔";
-            kt.Product = l.realm.All<Data.Product>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(ddl_product) );
+            
+            // we didnt trigger the ddl on change event
+            if(ddl_product == null) {
+                kt.Product = l.realm.All<Data.Product>().OrderBy(p => p.Name).FirstOrDefault();
+            } else {
+                kt.Product = l.realm.All<Data.Product>().FirstOrDefault(t => t.Id == MongoDB.Bson.ObjectId.Parse(ddl_product) );
+            }
 
             l.realm.Write(() =>
             {
