@@ -4,9 +4,15 @@
 A simple Blazor Server app (with docker support or wrapped in Electron) to build out some account management tasks for Solutions Architects. Data and authentication is using MongoDB Atlas and MongoDB Realm Sync.
 
 ## Features
-* Run in Docker or Electron desktop app
-* Track opportunities and details about them in a Kanban Board layout
-* Tack contacts for the purposes of champion building
+_Run in Docker or Electron desktop app!_
+
+* Login - backed by MongoDB Realm authentication
+* Local cache - once logged in, you can view and edit anything, even without a network connection. It will seamlessly sync to the cloud when network is restored.
+* Summary page - show graphs of what stages Ops are in, for what products, your health rating, and status of technical champion building activities
+* Product management - track what products Ops can have
+* Kanban board- track opportunities and details about them with filtering, color coding, etc
+* Contacts - Tack contacts for the purposes of champion building
+* Cloud services - track links to a cloud service back end to quickly jump to a closed-customer's tickets or environment
 
 ## Running yourself
 ### DB Prep
@@ -40,6 +46,8 @@ A simple Blazor Server app (with docker support or wrapped in Electron) to build
 ![](Screenshots/ss02.png)
 
 ![](Screenshots/ss03.png)
+
+![](Screenshots/ss09.png)
 
 ![](Screenshots/ss04.png)
 
