@@ -36,6 +36,7 @@ namespace OpKanban.Data
             new DDLOption { Key="Sizing", Value="Sizing"},
             new DDLOption { Key="Tech Validation", Value="Tech Validation"},
             new DDLOption { Key="Contract/Paper", Value="Contract/Paper"},
+            new DDLOption { Key="Elastic", Value="Elastic"},
             new DDLOption { Key="Closed Won", Value="Closed Won"},
             new DDLOption { Key="Closed Lost", Value="Closed Lost"}
         };

@@ -99,6 +99,18 @@
 
             @if(!bool.Parse(ddl_hideClosed)) {
                 <div class="col-md-2">
+                    <h2 class="kanbancolumn"> Elastic</h2>
+                    @foreach (var kt in allTasks.Where(k => k.Stage == "Elastic").OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title" style="border-top: 2px solid @kt.Color"><a href=@kt.Link title="Salesforce Link" target="_blank" class="card-link">@kt.Name</a></h5>
+                                <h6 class="card-subtitle mb-2 text-muted">@kt.Stage <a @onclick="() => EditCard(kt)" title="Edit" class="card-link"><span class="oi oi-pencil"></span></a></h6> 
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-2">
                     <h2 class="kanbancolumn"> Closed</h2>
                     @foreach (var kt in allTasks.Where(k => (k.Stage == "Closed Won" || k.Stage == "Closed Lost")).OrderByDescending(k => k.Color).ThenByDescending(k => k.Name))
                     {
